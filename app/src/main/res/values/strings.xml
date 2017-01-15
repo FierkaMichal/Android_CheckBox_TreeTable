@@ -1,3 +1,12 @@
 <resources>
-    <string name="app_name">CheckBox_TreeTable</string>
+    <string name="app_name">Projekt</string>
+    <string name="menu_name">Menu</string>
+    <string name="add_node">Add Node</string>
+    <string name="edit_node">Edit Node</string>
+    <string name="remove_node">Remove Node</string>
+    <string name="refresh_node">Refresh Node</string>
+    <string name="import_data">Import Data</string>
+    <string name="export_data">Export Data</string>
+    <string name="json">JSON</string>
+    <string name="xml">XML</string>
 </resources>
