@@ -6,19 +6,21 @@ package com.example.hubertfabisiak.checkbox_treetable;
 public class Car {
 
     //@ToDisplay
-    private String name;
-    private boolean electric;
-    @ToDisplay
+    private int size;
+    //@ToDisplay
+    private String mark;
+    // @ToDisplay
     private double maxSpeed;
 
-    public Car(String name, boolean electric, double maxSpeed) {
-        this.name = name;
-        this.electric = electric;
+    public Car(int size, String mark, double maxSpeed) {
+        super();
+        this.size = size;
+        this.mark = mark;
         this.maxSpeed = maxSpeed;
     }
 
-    public String toString() {
-        String str = " name = " + name + "  electric = " + electric + "  maxSpeed " + maxSpeed;
-        return str;
-    }
+//    public String toString() {
+//        String str = " name = " + name + "  electric = " + electric + "  maxSpeed " + maxSpeed;
+//        return str;
+//    }
 }

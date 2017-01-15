@@ -9,4 +9,6 @@
     <string name="export_data">Export Data</string>
     <string name="json">JSON</string>
     <string name="xml">XML</string>
+    <string name="hello">Hello World!</string>
+    <string name="myTableRowClick">myTableRowClickHandler</string>
 </resources>
