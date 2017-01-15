@@ -58,7 +58,7 @@ public class TristateCheckBox extends CheckBox {
     private void update(){
         int draw = R.drawable.ic_check_box_outline_blank_white_24dp;
 
-        switch (state){
+        switch (state) {
             case UNCHECKED:
                 draw = R.drawable.ic_check_box_outline_blank_white_24dp;
                 break;

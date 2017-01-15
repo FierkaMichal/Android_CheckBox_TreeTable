@@ -22,20 +22,35 @@ public class MainActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.table_layout);
+
+        RelativeLayout relativeLayout = new RelativeLayout(this);
+        checkBox = new TristateCheckBox(this);
+        checkBox.setWidth(100);
+        checkBox.setHeight(100);
+        relativeLayout.addView(checkBox);
+        relativeLayout.setBackgroundColor(Color.BLACK);
+        setContentView(relativeLayout);
+    }
+}
+
+
+//Tabela:
+//         setContentView(R.layout.table_layout);
 
 
 
-        new Settings();
-        //new XMLReader();
-        TreeTableModel ttm = new TreeTableModel();
-        table = new Table(this,(TableLayout) findViewById(R.id.main_table));
+//         new Settings();
+//         //new XMLReader();
+//         TreeTableModel ttm = new TreeTableModel();
+//         table = new Table(this,(TableLayout) findViewById(R.id.main_table));
 
-        table.init(ttm.getRowData(),ttm.getColumnNames());
+//         table.init(ttm.getRowData(),ttm.getColumnNames());
 
-//        hTextView = (TextView)findViewById(R.id.idTextView);
-//        hTableRow = (TableRow)findViewById(R.id.idTableRow1);
-    } // end onCreate
+// //        hTextView = (TextView)findViewById(R.id.idTextView);
+// //        hTableRow = (TableRow)findViewById(R.id.idTableRow1);
+//     } // end onCreate
+
+//koniec tabeli
 
 
 
@@ -69,3 +84,4 @@ public class MainActivity extends Activity {
 //        }
 //    }
 }
+
