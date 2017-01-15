@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/add_action"
+        android:icon="@android:drawable/ic_menu_add"
+        android:title="@string/add_node"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/edit_action"
+        android:icon="@android:drawable/ic_menu_edit"
+        android:title="@string/edit_node"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/remove_action"
+        android:icon="@android:drawable/btn_dialog"
+        android:title="@string/remove_node"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/refresh_action"
+        android:icon="@android:drawable/stat_notify_sync"
+        android:title="@string/refresh_node"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/export_action"
+        android:icon="@android:drawable/stat_notify_sync"
+        android:title="@string/export_data"
+        app:showAsAction="ifRoom">
+
+        <menu>
+            <item
+                android:id="@+id/export_json"
+                android:title="@string/json" />
+            <item
+                android:id="@+id/export_xml"
+                android:title="@string/xml" />
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/import_action"
+        android:icon="@android:drawable/stat_notify_sync"
+        android:title="@string/import_data"
+        app:showAsAction="ifRoom">
+
+        <menu>
+            <item
+                android:id="@+id/import_json"
+                android:title="@string/json" />
+            <item
+                android:id="@+id/import_xml"
+                android:title="@string/xml" />
+        </menu>
+
+    </item>
+
+</menu>
