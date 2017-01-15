@@ -14,6 +14,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         RelativeLayout relativeLayout = new RelativeLayout(this);
         checkBox = new TristateCheckBox(this);
+        checkBox.setWidth(100);
+        checkBox.setHeight(100);
         relativeLayout.addView(checkBox);
         relativeLayout.setBackgroundColor(Color.BLACK);
         setContentView(relativeLayout);
