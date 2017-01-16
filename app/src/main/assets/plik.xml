@@ -3,5 +3,8 @@
 	<column>
 		mark
 	</column>	
+	<column>
+		size
+	</column>
 </toDisplay>
 	
