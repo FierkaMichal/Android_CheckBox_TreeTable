@@ -1,9 +1,15 @@
 package com.example.hubertfabisiak.checkbox_treetable;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -16,7 +22,7 @@ import java.util.List;
  * Created by Damian on 15.01.2017.
  */
 
-public class Table  {
+public class Table {
 
     Activity mainActivity;
     TableLayout tl;
@@ -25,6 +31,7 @@ public class Table  {
         this.mainActivity = mainActivity;
         this.tl = tableLayout;
     }
+
 
 //    public void init(Object[][] rowData,Object [] columnNames) {
 //        //LinkedList<LinkedList<TextView>> textList = new LinkedList<>();
@@ -161,6 +168,14 @@ public class Table  {
                     onClickMethod(v);
                 } });
 
+            new_head.setOnLongClickListener(new View.OnLongClickListener(){
+                                @Override
+                                public boolean onLongClick(View v) {
+                                        onLongClickMethod(v);
+                                        return false;
+                                    }
+                            });
+
             new_head.setLayoutParams(new TableRow.LayoutParams(
                     TableRow.LayoutParams.MATCH_PARENT,
                     TableRow.LayoutParams.WRAP_CONTENT));
@@ -214,15 +229,23 @@ public class Table  {
         v.setBackgroundColor(Color.BLACK);
         tl.addView(v);
 
-    } // end of for loop
+    }
 
     private void onClickMethod(View v) {
 
     }
 
+    
+
     public void updateTable() {
 
     }
+
+    private void onLongClickMethod(View v){
+        mainActivity.registerForContextMenu(v);
+    }
+
+
 
 }
 
