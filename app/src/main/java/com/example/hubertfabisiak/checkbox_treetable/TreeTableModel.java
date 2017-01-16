@@ -12,6 +12,8 @@ public class TreeTableModel {
     private Object columnNames[];
     // private EventListenerList eventListenerList;
 
+    ArrayList<TreeNode<Car>> data;
+
     ArrayList<Node> nodes;
 
     public TreeTableModel() {
@@ -21,13 +23,13 @@ public class TreeTableModel {
 
     public void addData() {
         Car c3 = new Car(5, "c3", 5.1);
-        Car c4 = new Car(5, "c4", 5.1);
-        Car c1 = new Car(5, "c1", 5.1);
-        Car c2 = new Car(5, "c2", 5.1);
+        Car c4 = new Car(3, "c4", 5.1);
+        Car c1 = new Car(8, "c1", 5.1);
+        Car c2 = new Car(9, "c2", 5.1);
 
-        Car c5 = new Car(5, "c5", 5.1);
-        Car c6 = new Car(5, "c6", 5.1);
-        Car c7 = new Car(5, "c7", 5.1);
+        Car c5 = new Car(4, "c5", 5.1);
+        Car c6 = new Car(9, "c6", 5.1);
+        Car c7 = new Car(3, "c7", 5.1);
         Tree<Car> tree = new Tree<Car>(c1);
 
         tree.add(tree.getRoot(), c3);
@@ -37,7 +39,7 @@ public class TreeTableModel {
         tree.add(tree.find(c4), c7);
         tree.add(tree.find(c5), c1);
 
-        ArrayList<TreeNode<Car>> a = tree.getDataToDisplay();
+        data = tree.getDataToDisplay();
         
 //        int columns;
 //        int rows;
@@ -123,5 +125,9 @@ public class TreeTableModel {
 
     public Object[] getColumnNames() {
         return columnNames;
+    }
+
+    public ArrayList<TreeNode<Car>> getData() {
+        return data;
     }
 }

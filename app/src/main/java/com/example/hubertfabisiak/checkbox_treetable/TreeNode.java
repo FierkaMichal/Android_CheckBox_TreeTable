@@ -28,6 +28,7 @@ public class TreeNode<T> {
         visible = true;
         checkboxState = TristateCheckBox.UNCHECKED;
         treeNodeId = Tree.Id++;
+        dataToDisplay = new ArrayList<>();
         loadValuesToDisplay();
         if(parent != null)
             treeLevel = parent.getTreeLevel() + 1;
@@ -158,6 +159,10 @@ public class TreeNode<T> {
 
     public int getDataToDisplaySize() {
         return dataToDisplay.size();
+    }
+
+    public String getDataToDisplayIdx(int idx) {
+        return dataToDisplay.get(idx);
     }
 
     public String getData(int idx) {

@@ -23,7 +23,8 @@ public class MainActivity extends AppCompatActivity {
          TreeTableModel ttm = new TreeTableModel();
          table = new Table(this,(TableLayout) findViewById(R.id.main_table));
 
-         table.init(ttm.getRowData(),ttm.getColumnNames());
+         //table.init(ttm.getRowData(),ttm.getColumnNames());
+         table.init(ttm.getData());
 
 //
      } // end onCreate
