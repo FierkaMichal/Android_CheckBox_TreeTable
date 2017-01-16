@@ -88,10 +88,19 @@ public class TreeNode<T> {
     }
 
     public void onClick(){
-        if(childVisible)
-            setCheckboxToUnchecked();
-        else
-            setCheckboxToUnknown();
+//        if(childVisible)
+//            setCheckboxToUnchecked();
+//        else
+//            setCheckboxToUnknown();
+          test();
+    }
+
+
+    public void test() {
+        for(int i = 0; i < children.size(); i++){
+            TreeNode<T> child = children.get(i);
+            child.setVisible(!child.getVisible());
+        }
     }
 
     public void setCheckboxToUnknown(){

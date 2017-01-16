@@ -126,13 +126,13 @@ public class Table {
     }
 
     private void onClickMethod(View v) {
-//        int i=0;
-//        while(data.get(i).getTreeNodeId()!=v.getId()) {
-//            i++;
-//        }
-//        data.get(i).onClick();
-//        data = tree.getDataToDisplay();
-//        createTableTree();
+        int i=0;
+        while(data.get(i).getTreeNodeId()!=v.getId()) {
+            i++;
+        }
+        data.get(i).onClick();
+        data = tree.getDataToDisplay();
+        createTableTree();
     }
 
     public void updateTable() {
