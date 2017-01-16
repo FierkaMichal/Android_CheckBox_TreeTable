@@ -19,8 +19,4 @@ public class Car {
         this.maxSpeed = maxSpeed;
     }
 
-//    public String toString() {
-//        String str = " name = " + name + "  electric = " + electric + "  maxSpeed " + maxSpeed;
-//        return str;
-//    }
 }

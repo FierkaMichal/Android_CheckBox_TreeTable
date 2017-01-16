@@ -9,9 +9,8 @@ import android.view.View;
 import android.widget.TableLayout;
 
 public class MainActivity extends AppCompatActivity {
-    //
+
     Table table;
-    //
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -23,15 +22,9 @@ public class MainActivity extends AppCompatActivity {
          TreeTableModel ttm = new TreeTableModel();
          table = new Table(this,(TableLayout) findViewById(R.id.main_table));
 
-
-         //table.init(ttm.getRowData(),ttm.getColumnNames());
          table.init(ttm.getTree(),ttm.getData());
 
-//
-
-        // table.init(ttm.getRowData(),ttm.getColumnNames());
-
-     } // end onCreate
+     }
 
 
     public boolean onCreateOptionsMenu(Menu menu) {

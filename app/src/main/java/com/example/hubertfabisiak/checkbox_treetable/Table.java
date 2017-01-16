@@ -1,23 +1,15 @@
 package com.example.hubertfabisiak.checkbox_treetable;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Color;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
-import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
+
 
 /**
  * Created by Damian on 15.01.2017.
@@ -41,13 +33,8 @@ public class Table {
         createTableTree();
     }
 
-
-//
-
     public void createTableTree() {
-
         LinkedList<TableRow> tr_heads = new LinkedList<>();
-        //Tytuł tabeli
 
         TableRow title = new TableRow(mainActivity);
         title.setBackgroundColor(Color.WHITE);
@@ -63,7 +50,7 @@ public class Table {
         blank.setClickable(false);
 
         TextView titleV = null;
-        for(int i=0;i<data.get(0).getDataToDisplaySize();i++) {
+        for(int i=0;i<Settings.getVariablesToDisplaySize();i++) {
             titleV = new TextView(mainActivity);
             titleV.setText(Settings.getVariableToDisplay(i));
             titleV.setTextColor(Color.BLACK);
@@ -73,7 +60,7 @@ public class Table {
 
         for (int i = 1; i < data.size(); i++) {
 
-            //Create the tablerows
+
             TableRow new_head = new TableRow(mainActivity);
             new_head.setId(data.get(i).getTreeNodeId());
             new_head.setBackgroundColor(Color.GRAY);
@@ -112,11 +99,9 @@ public class Table {
                 } else {
                     tv.setPadding(5, 5, 5, 5);
                 }
-                // textList.add(i+j, tv);
+
                 new_head.addView(tv);
             }
-
-
         }
 
         View v;
@@ -131,8 +116,6 @@ public class Table {
             tl.addView(tr, new TableLayout.LayoutParams(
                     TableRow.LayoutParams.MATCH_PARENT,
                     TableRow.LayoutParams.WRAP_CONTENT));
-
-
         }
 
         v = new View(mainActivity);
@@ -140,17 +123,16 @@ public class Table {
                 ViewGroup.LayoutParams.MATCH_PARENT, 15));
         v.setBackgroundColor(Color.BLACK);
         tl.addView(v);
-
     }
 
     private void onClickMethod(View v) {
-        int i=0;
-        while(data.get(i).getTreeNodeId()!=v.getId()) {
-            i++;
-        }
-        data.get(i).onClick();
-        data = tree.getDataToDisplay();
-        createTableTree();
+//        int i=0;
+//        while(data.get(i).getTreeNodeId()!=v.getId()) {
+//            i++;
+//        }
+//        data.get(i).onClick();
+//        data = tree.getDataToDisplay();
+//        createTableTree();
     }
 
     public void updateTable() {
@@ -160,9 +142,6 @@ public class Table {
     private void onLongClickMethod(View v){
         mainActivity.registerForContextMenu(v);
     }
-
-
-
 }
 
 
