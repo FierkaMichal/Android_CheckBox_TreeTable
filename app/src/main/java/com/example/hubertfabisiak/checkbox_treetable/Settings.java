@@ -14,6 +14,7 @@ public class Settings {
         variablesToDisplay = new ArrayList<>();
         invalidVariablesToDisplay = new ArrayList<>();
         variablesToDisplay.add("mark");
+        variablesToDisplay.add("size");
     }
 
     public static void addVariableToDisplay(String variable) {
