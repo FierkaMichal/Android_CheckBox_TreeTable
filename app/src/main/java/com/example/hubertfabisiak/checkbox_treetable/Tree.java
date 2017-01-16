@@ -8,10 +8,37 @@ import java.util.ArrayList;
 
 public class Tree<T> {
 
+    public static int Id = 0;
     TreeNode<T> root;
 
-    public Tree(TreeNode<T> root){
-        this.root = root;
+    public Tree(T data){
+        this.root = new TreeNode<T>(data, null);
+    }
+
+    public ArrayList<TreeNode<T>> getDataToDisplay(){
+        ArrayList<TreeNode<T>> treeArrayList = new ArrayList<>();
+
+        if(root != null)
+            treeArrayList.addAll(getDataToDisplay(root));
+
+        return treeArrayList;
+    }
+
+    private ArrayList<TreeNode<T>> getDataToDisplay(TreeNode<T> currentNode){
+        ArrayList<TreeNode<T>> treeArrayList = new ArrayList<>();
+
+        if(currentNode.getVisible()){
+            treeArrayList.add(currentNode);
+            if(!currentNode.isLeaf()){
+                int i = 0;
+                while(i < currentNode.getNumberOfChildren()) {
+                    treeArrayList.addAll(getDataToDisplay(currentNode.getChildren(i)));
+                    i++;
+                }
+            }
+        }
+
+        return treeArrayList;
     }
 
     public boolean add(TreeNode<T> parent, T toAddData){
@@ -35,6 +62,24 @@ public class Tree<T> {
         }
 
         return ifAdd;
+    }
+
+    public boolean remove(int treeNodeID){
+        boolean ifRemove = false;
+        TreeNode<T> t = find(treeNodeID);
+        TreeNode<T> tParent = null;
+        ArrayList<TreeNode<T>> children = new ArrayList<>();
+
+        if(t != null){
+            tParent = t.getParent();
+            children = t.getChildren();
+            tParent.removeChild(t);
+
+            tParent.setChildren(children);
+            ifRemove = true;
+        }
+
+        return ifRemove;
     }
 
     public boolean remove(T dataToRemove){
@@ -118,6 +163,16 @@ public class Tree<T> {
         return returnNode;
     }
 
+    public TreeNode<T> find(int treeNodeID){
+        TreeNode<T> returnNode = null;
+
+        if(root != null){
+            returnNode = find(root, treeNodeID);
+        }
+
+        return returnNode;
+    }
+
     private TreeNode<T> find(TreeNode<T> currentNode, T data){
         TreeNode<T> returnNode = null;
 
@@ -127,6 +182,22 @@ public class Tree<T> {
             int i = 0;
             while(returnNode == null && i < currentNode.getNumberOfChildren()){
                 returnNode = find(currentNode.getChildren(i), data);
+                i++;
+            }
+        }
+
+        return returnNode;
+    }
+
+    private TreeNode<T> find(TreeNode<T> currentNode, int treeNodeID){
+        TreeNode<T> returnNode = null;
+
+        if(currentNode.getTreeNodeId() == treeNodeID)
+            returnNode = currentNode;
+        else if(!currentNode.isLeaf()){
+            int i = 0;
+            while(returnNode == null && i < currentNode.getNumberOfChildren()){
+                returnNode = find(currentNode.getChildren(i), treeNodeID);
                 i++;
             }
         }

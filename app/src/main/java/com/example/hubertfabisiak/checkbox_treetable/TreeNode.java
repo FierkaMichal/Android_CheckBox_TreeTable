@@ -1,5 +1,6 @@
 package com.example.hubertfabisiak.checkbox_treetable;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 
@@ -12,11 +13,26 @@ public class TreeNode<T> {
     private T data;
     private TreeNode<T> parent;
     private ArrayList<TreeNode<T>> children;
+    private ArrayList<String> dataToDisplay;
+    private boolean visible;
+    private int treeLevel;
+    private int treeNodeId;
+    private int checkboxState;
+    private int childVisible;
+
 
     public TreeNode(T data, TreeNode<T> parent) {
         this.data = data;
         this.parent = parent;
         children = new ArrayList<>();
+        visible = true;
+        checkboxState = TristateCheckBox.UNCHECKED;
+        treeNodeId = Tree.Id++;
+        loadValuesToDisplay();
+        if(parent != null)
+            treeLevel = parent.getTreeLevel() + 1;
+        else
+            treeLevel = 0;
     }
 
     public TreeNode(T data, TreeNode<T> parent, T child){
@@ -69,6 +85,86 @@ public class TreeNode<T> {
             i++;
         }
     }
+    public void checkIfNodeContainsValuesToDisplay() {
+
+        for (String fieldName : Settings.variablesToDisplay) {
+
+            Class<?> someClass = data.getClass();
+            Field someField = null;
+
+            while (someClass != null && someField == null) {
+
+                try {
+                    someField = someClass.getDeclaredField(fieldName);
+                } catch (NoSuchFieldException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (SecurityException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
+                someClass = someClass.getSuperclass();
+            }
+
+            if (someField == null) {
+                Settings.addInvalidVariablesToDisplay(fieldName);
+            }
+        }
+    }
+
+    public void loadValuesToDisplay() {
+
+        for (String fieldName : Settings.variablesToDisplay) {
+
+            Object value = null;
+            Class<?> someClass = data.getClass();
+            Field someField = null;
+
+            while (someClass != null && someField == null) {
+
+                try {
+                    someField = someClass.getDeclaredField(fieldName);
+                } catch (NoSuchFieldException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (SecurityException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
+                someClass = someClass.getSuperclass();
+            }
+
+            if (someField != null) {
+
+                someField.setAccessible(true);
+
+                try {
+                    value = someField.get((Object) data);
+                } catch (IllegalArgumentException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
+                dataToDisplay.add(value.toString());
+            }
+        }
+
+    }
+
+    public int getDataToDisplaySize() {
+        return dataToDisplay.size();
+    }
+
+    public String getData(int idx) {
+        if(idx < dataToDisplay.size())
+            return dataToDisplay.get(idx);
+        return "";
+    }
 
     public boolean isLeaf(){
         if(children.size() == 0)
@@ -98,6 +194,33 @@ public class TreeNode<T> {
 
     public void setData(T data){
         this.data = data;
+    }
+
+    public void childChangeVisible(boolean visible){
+    }
+
+    public boolean getVisible(){
+        return visible;
+    }
+
+    public void setVisible(boolean visible){
+        this.visible = visible;
+    }
+
+    public void setTreeLevel(int treeLevel){
+        this.treeLevel = treeLevel;
+    }
+
+    public int getChildVisible(){
+        return childVisible;
+    }
+
+    public int getTreeLevel(){
+        return treeLevel;
+    }
+
+    public int getTreeNodeId(){
+        return treeNodeId;
     }
 
     @Override
