@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
          setContentView(R.layout.table_layout);
          new Settings();
-         //new XMLReader();
+         new XMLReader(this);
          TreeTableModel ttm = new TreeTableModel();
          table = new Table(this,(TableLayout) findViewById(R.id.main_table));
 
