@@ -25,7 +25,7 @@ public class XMLReader {
     public void readXML() {
 
 
-        File fXmlFile = new File("/plik.xml");
+        File fXmlFile = new File("plik.xml");
 
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 

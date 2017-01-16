@@ -2,9 +2,13 @@ package com.example.hubertfabisiak.checkbox_treetable;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.view.View;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by Damian on 15.01.2017.
@@ -21,38 +25,59 @@ public class Table  {
     }
 
     public void init(Object[][] rowData,Object [] columnNames) {
-        TextView[] textArray = new TextView[rowData.length];
-        TableRow[] tr_head = new TableRow[rowData.length];
+        LinkedList<TextView> textList = new LinkedList<>();
+        LinkedList<TableRow> tr_heads = new LinkedList<>();
+        LinkedList<TristateCheckBox> tscb = new LinkedList<>();
 
         for (int i = 0; i < rowData.length; i++) {
-//            JSONObject product = productsList.getJSONObject(i);
-//            JSONObject productData = product.getJSONObject("Product");
-//            String productDescription = productData.getString("description");
 
             //Create the tablerows
-            tr_head[i] = new TableRow(mainActivity);
-            tr_head[i].setId(i + 1);
-            tr_head[i].setBackgroundColor(Color.GRAY);
-            tr_head[i].setLayoutParams(new TableRow.LayoutParams(
+            TableRow new_head = new TableRow(mainActivity);
+            new_head.setId(i + 1);
+            new_head.setBackgroundColor(Color.GRAY);
+            new_head.setClickable(true);
+            new_head.setFocusable(true);
+            new_head.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v)
+                {
+                    onClickMethod(v);
+                } });
+
+            new_head.setLayoutParams(new TableRow.LayoutParams(
                     TableRow.LayoutParams.MATCH_PARENT,
                     TableRow.LayoutParams.WRAP_CONTENT));
+            tr_heads.add(i,new_head);
 
-            // Here create the TextView dynamically
+            TristateCheckBox newtcb = new TristateCheckBox(mainActivity);
+            tscb.add(i,newtcb);
+            new_head.addView(newtcb);
 
-            textArray[i] = new TextView(mainActivity);
-            textArray[i].setId(i + 111);
-            textArray[i].setText((String)rowData[i][1]);
-            textArray[i].setTextColor(Color.WHITE);
-            textArray[i].setPadding(5, 5, 5, 5);
-            tr_head[i].addView(textArray[i]);
+            TextView tv = new TextView(mainActivity);
+            tv.setId(i + 111);
+            tv.setText((String)rowData[i][1]);
+            tv.setTextColor(Color.WHITE);
+            tv.setPadding(5, 5, 5, 5);
+            textList.add(i,tv);
+            new_head.addView(tv);
         }
 
-        for (int i = 0; i < rowData.length; i++) {
-            tl.addView(tr_head[i], new TableLayout.LayoutParams(
+        for(TableRow tr : tr_heads) {
+            tl.addView(tr, new TableLayout.LayoutParams(
                     TableRow.LayoutParams.MATCH_PARENT,
                     TableRow.LayoutParams.WRAP_CONTENT));
         }
 
     } // end of for loop
 
+    private void onClickMethod(View v) {
+
+    }
+
+    public void updateTable() {
+
+    }
+
 }
+
+
+

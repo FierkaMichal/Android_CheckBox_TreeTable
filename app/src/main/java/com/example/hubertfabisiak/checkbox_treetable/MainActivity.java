@@ -1,7 +1,12 @@
 package com.example.hubertfabisiak.checkbox_treetable;
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 
 import java.io.BufferedWriter;
@@ -12,7 +17,7 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
 
     //
     Table table;
@@ -23,65 +28,28 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        RelativeLayout relativeLayout = new RelativeLayout(this);
-        checkBox = new TristateCheckBox(this);
-        checkBox.setWidth(100);
-        checkBox.setHeight(100);
-        relativeLayout.addView(checkBox);
-        relativeLayout.setBackgroundColor(Color.BLACK);
-        setContentView(relativeLayout);
-    }
-}
+         setContentView(R.layout.table_layout);
+         new Settings();
+         //new XMLReader();
+         TreeTableModel ttm = new TreeTableModel();
+         table = new Table(this,(TableLayout) findViewById(R.id.main_table));
 
+         table.init(ttm.getRowData(),ttm.getColumnNames());
 
-//Tabela:
-//         setContentView(R.layout.table_layout);
-
-
-
-//         new Settings();
-//         //new XMLReader();
-//         TreeTableModel ttm = new TreeTableModel();
-//         table = new Table(this,(TableLayout) findViewById(R.id.main_table));
-
-//         table.init(ttm.getRowData(),ttm.getColumnNames());
-
-// //        hTextView = (TextView)findViewById(R.id.idTextView);
-// //        hTableRow = (TableRow)findViewById(R.id.idTableRow1);
-//     } // end onCreate
-
-//koniec tabeli
-
-
-
-//    public void myTableRowClickHandler(View view) {
-//        switch (view.getId()) {
-//            case R.id.idTableRow1:
-//                hTextView = (TextView)findViewById(R.id.idTextView);
-//                hTableRow = (TableRow)findViewById(R.id.idTableRow1);
-//                if(bColorYellow){
-//                    hTableRow.setBackgroundColor(Color.GREEN);
-//                    bColorYellow = false;
-//                }
-//                else{
-//                    hTableRow.setBackgroundColor(Color.YELLOW);
-//                    bColorYellow = true;
-//                }
-//            break;
 //
-//            case R.id.idTableRow2:
-//                hTextView = (TextView)findViewById(R.id.idTextView2);
-//                hTableRow = (TableRow)findViewById(R.id.idTableRow2);
-//                if(bColorYellow){
-//                    hTableRow.setBackgroundColor(Color.GREEN);
-//                    bColorYellow = false;
-//                }
-//                else{
-//                    hTableRow.setBackgroundColor(Color.YELLOW);
-//                    bColorYellow = true;
-//                }
-//                break;
-//        }
-//    }
+     } // end onCreate
+
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu,menu);
+        return true;
+    }
+
+
+
+
+
+
 }
 

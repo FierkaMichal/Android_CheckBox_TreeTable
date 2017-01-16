@@ -79,4 +79,5 @@ public class TristateCheckBox extends CheckBox {
     public void setState(int state){
         this.state = state;
     }
+
 }
