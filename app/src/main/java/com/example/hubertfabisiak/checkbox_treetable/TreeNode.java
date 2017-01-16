@@ -86,6 +86,42 @@ public class TreeNode<T> {
             i++;
         }
     }
+
+    public void setChecboxToUnknow(){
+        setVisible(true);
+        setCheckboxState(TristateCheckBox.UNKNOW);
+        for(int i = 0; i < children.size(); i++){
+            TreeNode<T> child = children.get(i);
+            if(child.getVisible()) {
+                setCheckboxToUnchecked();
+                child.setVisible(false);
+                setCheckboxToChecked();
+            }
+        }
+    }
+
+    public void setCheckboxToUnchecked(){
+        for(int i = 0; i < children.size(); i++){
+            TreeNode<T> child = children.get(i);
+            if(child.getVisible()) {
+                child.setVisible(false);
+                setCheckboxToChecked();
+            }
+        }
+        setVisible(false);
+        setCheckboxState(TristateCheckBox.UNCHECKED);
+    }
+
+    public void setCheckboxToChecked(){
+        for(int i = 0; i < children.size(); i++){
+            TreeNode<T> child = children.get(i);
+            child.setVisible(true);
+            setCheckboxToChecked();
+        }
+        setVisible(true);
+        setCheckboxState(TristateCheckBox.CHECKED);
+    }
+
     public void checkIfNodeContainsValuesToDisplay() {
 
         for (String fieldName : Settings.variablesToDisplay) {
@@ -226,6 +262,18 @@ public class TreeNode<T> {
 
     public int getTreeNodeId(){
         return treeNodeId;
+    }
+
+    public int getCheckboxState() {
+        return checkboxState;
+    }
+
+    public void setCheckboxState(int i){
+        if(i < 0 || i > 2)
+            checkboxState = TristateCheckBox.UNCHECKED;
+        else
+            checkboxState = i;
+
     }
 
     @Override
