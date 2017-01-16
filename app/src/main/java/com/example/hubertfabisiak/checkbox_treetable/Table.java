@@ -86,7 +86,7 @@ public class Table {
             tr_heads.add(i,new_head);
 
             TristateCheckBox newtcb = new TristateCheckBox(mainActivity);
-
+            newtcb.setState(data.get(i).getCheckboxState());
             new_head.addView(newtcb);
 
             TextView tv = null;
