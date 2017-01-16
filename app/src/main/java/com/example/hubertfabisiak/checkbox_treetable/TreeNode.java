@@ -1,5 +1,6 @@
 package com.example.hubertfabisiak.checkbox_treetable;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 
@@ -27,6 +28,7 @@ public class TreeNode<T> {
         visible = true;
         checkboxState = TristateCheckBox.UNCHECKED;
         treeNodeId = Tree.Id++;
+        loadValuesToDisplay();
         if(parent != null)
             treeLevel = parent.getTreeLevel() + 1;
         else
@@ -82,6 +84,86 @@ public class TreeNode<T> {
                 t = nodeToRemove;
             i++;
         }
+    }
+    public void checkIfNodeContainsValuesToDisplay() {
+
+        for (String fieldName : Settings.variablesToDisplay) {
+
+            Class<?> someClass = data.getClass();
+            Field someField = null;
+
+            while (someClass != null && someField == null) {
+
+                try {
+                    someField = someClass.getDeclaredField(fieldName);
+                } catch (NoSuchFieldException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (SecurityException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
+                someClass = someClass.getSuperclass();
+            }
+
+            if (someField == null) {
+                Settings.addInvalidVariablesToDisplay(fieldName);
+            }
+        }
+    }
+
+    public void loadValuesToDisplay() {
+
+        for (String fieldName : Settings.variablesToDisplay) {
+
+            Object value = null;
+            Class<?> someClass = data.getClass();
+            Field someField = null;
+
+            while (someClass != null && someField == null) {
+
+                try {
+                    someField = someClass.getDeclaredField(fieldName);
+                } catch (NoSuchFieldException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (SecurityException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
+                someClass = someClass.getSuperclass();
+            }
+
+            if (someField != null) {
+
+                someField.setAccessible(true);
+
+                try {
+                    value = someField.get((Object) data);
+                } catch (IllegalArgumentException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
+                dataToDisplay.add(value.toString());
+            }
+        }
+
+    }
+
+    public int getDataToDisplaySize() {
+        return dataToDisplay.size();
+    }
+
+    public String getData(int idx) {
+        if(idx < dataToDisplay.size())
+            return dataToDisplay.get(idx);
+        return "";
     }
 
     public boolean isLeaf(){
