@@ -16,6 +16,8 @@ public class TreeTableModel {
 
     ArrayList<Node> nodes;
 
+    Tree<Car> tree;
+
     public TreeTableModel() {
         //  eventListenerList = new EventListenerList();
         addData();
@@ -30,7 +32,7 @@ public class TreeTableModel {
         Car c5 = new Car(4, "c5", 5.1);
         Car c6 = new Car(9, "c6", 5.1);
         Car c7 = new Car(3, "c7", 5.1);
-        Tree<Car> tree = new Tree<Car>(c1);
+        tree = new Tree<Car>(c1);
 
         tree.add(tree.getRoot(), c3);
         tree.add(tree.getRoot(), c4);
@@ -129,5 +131,9 @@ public class TreeTableModel {
 
     public ArrayList<TreeNode<Car>> getData() {
         return data;
+    }
+
+    public Tree<Car> getTree() {
+        return tree;
     }
 }

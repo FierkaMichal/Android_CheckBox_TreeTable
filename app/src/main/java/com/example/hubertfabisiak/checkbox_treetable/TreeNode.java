@@ -102,7 +102,6 @@ public class TreeNode<T> {
             if(child.getVisible()) {
                 setCheckboxToUnchecked();
                 child.setVisible(false);
-                setCheckboxToChecked();
             }
         }
     }

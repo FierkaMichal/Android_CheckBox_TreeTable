@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
 
          //table.init(ttm.getRowData(),ttm.getColumnNames());
-         table.init(ttm.getData());
+         table.init(ttm.getTree(),ttm.getData());
 
 //
 
