@@ -15,17 +15,17 @@ public class TreeNode<T> {
     private ArrayList<TreeNode<T>> children;
     private ArrayList<String> dataToDisplay;
     private boolean visible;
+    private boolean childVisible;
     private int treeLevel;
     private int treeNodeId;
     private int checkboxState;
-    private int childVisible;
-
 
     public TreeNode(T data, TreeNode<T> parent) {
         this.data = data;
         this.parent = parent;
         children = new ArrayList<>();
         visible = true;
+        childVisible = false;
         checkboxState = TristateCheckBox.UNCHECKED;
         treeNodeId = Tree.Id++;
         dataToDisplay = new ArrayList<>();
@@ -87,9 +87,16 @@ public class TreeNode<T> {
         }
     }
 
-    public void setChecboxToUnknow(){
+    public void onClick(){
+        if(childVisible)
+            setCheckboxToUnchecked();
+        else
+            setCheckboxToUnknown();
+    }
+
+    public void setCheckboxToUnknown(){
         setVisible(true);
-        setCheckboxState(TristateCheckBox.UNKNOW);
+        setCheckboxState(TristateCheckBox.UNKNOWN);
         for(int i = 0; i < children.size(); i++){
             TreeNode<T> child = children.get(i);
             if(child.getVisible()) {
@@ -237,9 +244,6 @@ public class TreeNode<T> {
         this.data = data;
     }
 
-    public void childChangeVisible(boolean visible){
-    }
-
     public boolean getVisible(){
         return visible;
     }
@@ -252,7 +256,11 @@ public class TreeNode<T> {
         this.treeLevel = treeLevel;
     }
 
-    public int getChildVisible(){
+    public void setChildVisible(boolean childVisible){
+        this.childVisible = childVisible;
+    }
+
+    public boolean getChildVisible(){
         return childVisible;
     }
 

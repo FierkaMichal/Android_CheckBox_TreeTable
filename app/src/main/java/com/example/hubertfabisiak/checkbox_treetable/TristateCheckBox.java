@@ -12,7 +12,7 @@ import android.widget.CompoundButton;
 public class TristateCheckBox extends CheckBox {
 
     public static final int UNCHECKED = 0;
-    public static final int UNKNOW = 1;
+    public static final int UNKNOWN = 1;
     public static final int CHECKED = 2;
 
     private int state;
@@ -40,13 +40,13 @@ public class TristateCheckBox extends CheckBox {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 switch (state){
-                    case 0:
-                        state  = UNKNOW;
+                    case UNCHECKED:
+                        state  = UNKNOWN;
                         break;
-                    case 1:
+                    case UNKNOWN:
                         state = CHECKED;
                         break;
-                    case 2:
+                    case CHECKED:
                         state = UNCHECKED;
                         break;
                 }
@@ -62,7 +62,7 @@ public class TristateCheckBox extends CheckBox {
             case UNCHECKED:
                 draw = R.drawable.ic_check_box_outline_blank_white_24dp;
                 break;
-            case UNKNOW:
+            case UNKNOWN:
                 draw = R.drawable.ic_indeterminate_check_box_white_24dp;
                 break;
             case CHECKED:
