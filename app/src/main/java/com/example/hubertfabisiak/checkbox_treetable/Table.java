@@ -2,11 +2,15 @@ package com.example.hubertfabisiak.checkbox_treetable;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupMenu;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -138,7 +142,23 @@ public class Table {
     }
 
     private void onLongClickMethod(View v){
-        mainActivity.registerForContextMenu(v);
+
+        PopupMenu popupMenu = new PopupMenu(mainActivity,v);
+        popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.edit:
+                        Toast.makeText(mainActivity, "You Clicked : " + "Edit", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.remove:
+                        Toast.makeText(mainActivity, "You Clicked : " + "Remove", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+                return true;
+            }
+        });
+        popupMenu.show();
     }
 }
 

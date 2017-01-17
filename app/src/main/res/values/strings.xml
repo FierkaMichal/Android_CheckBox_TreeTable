@@ -4,7 +4,7 @@
     <string name="add_node">Add Node</string>
     <string name="edit_node">Edit Node</string>
     <string name="remove_node">Remove Node</string>
-    <string name="refresh_node">Refresh Node</string>
+    <string name="refresh_node">Refresh Data</string>
     <string name="import_data">Import Data</string>
     <string name="export_data">Export Data</string>
     <string name="json">JSON</string>
