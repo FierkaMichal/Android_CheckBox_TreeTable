@@ -73,7 +73,11 @@ public class Table {
             titleV = new TextView(mainActivity);
             titleV.setText(Settings.getVariableToDisplay(i));
             titleV.setTextColor(Color.BLACK);
-            titleV.setPadding(5, 5, 5, 5);
+            if(i==0) {
+                TableRow.LayoutParams params = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 0.1f);
+                titleV.setLayoutParams(params);
+            }
+            titleV.setPadding(0,0,100,0);
             title.addView(titleV);
         }
 
@@ -101,8 +105,16 @@ public class Table {
             new_head.setLayoutParams(new TableRow.LayoutParams(
                     TableRow.LayoutParams.MATCH_PARENT,
                     TableRow.LayoutParams.WRAP_CONTENT));
+
             tr_heads.add(i,new_head);
 
+            //
+//            TextView tv = new TextView(mainActivity);
+//            tv.setText("");
+//            tv.setWidth((data.get(i).getTreeLevel()-1) * 100);
+//            new_head.addView(tv);
+            //
+            TextView tv;
             if(data.get(i).getNumberOfChildren()!=0) {
                 TristateCheckBox newtcb = new TristateCheckBox(mainActivity) {
                     @Override
@@ -129,20 +141,30 @@ public class Table {
                 newtcb.setState(data.get(i).getCheckboxState());
                 new_head.addView(newtcb);
             } else {
-                new_head.setPadding(new_head.getPaddingLeft()+70,0,0,0);
+                tv = new TextView(mainActivity);
+                tv.setText("");
+                tv.setWidth(0);
+                new_head.addView(tv);
             }
 
-            TextView tv = null;
+
             for(int j=0;j<data.get(i).getDataToDisplaySize();j++) {
                 tv = new TextView(mainActivity);
                 tv.setText(data.get(i).getDataToDisplayIdx(j));
                 tv.setTextColor(Color.WHITE);
+                if(j==0) {
+                    TableRow.LayoutParams params = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 0.1f);
+                    tv.setLayoutParams(params);
+                }
+
                 new_head.addView(tv);
             }
         }
 
         View v;
         tl.removeAllViews();
+        tl.setWeightSum(1);
+        tl.setShrinkAllColumns(true);
         for(TableRow tr : tr_heads) {
             v = new View(mainActivity);
             v.setLayoutParams(new ViewGroup.LayoutParams(
@@ -160,6 +182,7 @@ public class Table {
                 ViewGroup.LayoutParams.MATCH_PARENT, 15));
         v.setBackgroundColor(Color.BLACK);
         tl.addView(v);
+
     }
 
     private void onClickMethod(View v) {

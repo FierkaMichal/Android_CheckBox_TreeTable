@@ -17,7 +17,7 @@ public class Tree<T> {
 
     public Tree(T data){
         this.root = new TreeNode<T>(data, null);
-        loadVariablesToDisplay();
+        //loadVariablesToDisplay();
     }
 
     public void loadVariablesToDisplay() {

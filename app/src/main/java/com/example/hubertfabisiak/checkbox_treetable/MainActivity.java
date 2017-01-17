@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         getLayoutInflater().inflate(R.layout.table_layout, scrollView,true);
 
         new Settings();
-        //new XMLReader(this);
+        new XMLReader(this);
         TreeTableModel ttm = new TreeTableModel();
         table = new Table(this, (TableLayout) findViewById(R.id.main_table));
         table.init(ttm.getTree(), ttm.getData());

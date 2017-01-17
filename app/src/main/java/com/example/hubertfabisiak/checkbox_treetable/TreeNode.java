@@ -32,7 +32,7 @@ public class TreeNode<T> {
         checkboxState = TristateCheckBox.CHECKED;
         treeNodeId = Tree.Id++;
         dataToDisplay = new ArrayList<>();
-        //loadValuesToDisplay();
+        loadValuesToDisplay();
         loadValuesToDisplayFromAnnotation();
         if(parent != null)
             treeLevel = parent.getTreeLevel() + 1;
