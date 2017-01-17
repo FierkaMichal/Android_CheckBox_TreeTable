@@ -1,6 +1,10 @@
 package com.example.hubertfabisiak.checkbox_treetable;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Pawel on 15.01.2017.
@@ -13,6 +17,28 @@ public class Tree<T> {
 
     public Tree(T data){
         this.root = new TreeNode<T>(data, null);
+        loadVariablesToDisplay();
+    }
+
+    public void loadVariablesToDisplay() {
+        List<Integer> list = new ArrayList<>();
+
+        Field[] fields = Car.class.getDeclaredFields();
+        Map<Integer, String> map = new HashMap<>();
+
+        for (Field field : fields) {
+            if (field.isAnnotationPresent(ToDisplay.class)) {
+                ToDisplay annotation = field.getAnnotation(ToDisplay.class);
+                field.setAccessible(true);
+                String fieldName = field.getName();
+                int fieldIndex = annotation.index();
+                map.put(fieldIndex, fieldName);
+            }
+        }
+        list.addAll(map.keySet());
+        for (int i = 0; i < list.size(); i++) {
+            Settings.addVariableToDisplay(map.get(list.get(i)));
+        }
     }
 
     public ArrayList<TreeNode<T>> getDataToDisplay(){

@@ -5,11 +5,11 @@ package com.example.hubertfabisiak.checkbox_treetable;
  */
 public class Car {
 
-    //@ToDisplay
+    @ToDisplay(index = 2)
     private int size;
-    //@ToDisplay
+    @ToDisplay(index = 1)
     private String mark;
-    // @ToDisplay
+    @ToDisplay(index = 0)
     private double maxSpeed;
 
     public Car(int size, String mark, double maxSpeed) {

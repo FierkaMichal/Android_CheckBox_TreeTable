@@ -2,6 +2,9 @@ package com.example.hubertfabisiak.checkbox_treetable;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -29,7 +32,8 @@ public class TreeNode<T> {
         checkboxState = TristateCheckBox.CHECKED;
         treeNodeId = Tree.Id++;
         dataToDisplay = new ArrayList<>();
-        loadValuesToDisplay();
+        //loadValuesToDisplay();
+        loadValuesToDisplayFromAnnotation();
         if(parent != null)
             treeLevel = parent.getTreeLevel() + 1;
         else
@@ -213,6 +217,34 @@ public class TreeNode<T> {
             }
         }
 
+    }
+
+    public void loadValuesToDisplayFromAnnotation() {
+        List<Integer> list = new ArrayList<>();
+        Field[] fields = Car.class.getDeclaredFields();
+        Map<Integer, String> map = new HashMap<>();
+
+        for(Field field : fields) {
+            if(field.isAnnotationPresent(ToDisplay.class)) {
+                ToDisplay annotation = field.getAnnotation(ToDisplay.class);
+                field.setAccessible(true);
+                String fieldName = field.getName();
+                int fieldIndex = annotation.index();
+                try {
+                    map.put(fieldIndex, field.get((Object) data).toString());
+                } catch (IllegalArgumentException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        }
+        list.addAll(map.keySet());
+        for(int i = 0 ; i < list.size() ; i++) {
+            dataToDisplay.add(map.get(list.get(i)));
+        }
     }
 
     public int getDataToDisplaySize() {

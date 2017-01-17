@@ -9,6 +9,7 @@ import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ToDisplay {
+    int index();
 }
 
 //    Field[] fields = Car.class.getDeclaredFields();
