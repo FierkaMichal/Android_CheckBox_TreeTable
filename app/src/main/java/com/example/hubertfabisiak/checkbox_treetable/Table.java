@@ -106,7 +106,11 @@ public class Table {
                     TableRow.LayoutParams.MATCH_PARENT,
                     TableRow.LayoutParams.WRAP_CONTENT));
 
-            tr_heads.add(i,new_head);
+            tr_heads.add(new_head);
+
+            if(data.get(i).getSummaryVisible() && !data.get(i).isLeaf()){
+                tr_heads.add(createSummary(data.get(i)));
+            }
 
             //
 //            TextView tv = new TextView(mainActivity);
@@ -199,8 +203,20 @@ public class Table {
 
     }
 
-    private void onLongClickMethod(View v){
+    private TableRow createSummary(TreeNode<?> treeNode){
+        TableRow summary = new TableRow(mainActivity);
+        summary.setLayoutParams(new TableRow.LayoutParams(
+                TableRow.LayoutParams.MATCH_PARENT,
+                TableRow.LayoutParams.WRAP_CONTENT));
+        summary.setBackgroundColor(Color.WHITE);
+        TextView textView = new TextView(mainActivity);
+        textView.setText(treeNode.getSummary());
+        textView.setTextColor(Color.BLACK);
+        summary.addView(textView);
+        return summary;
+    }
 
+    private void onLongClickMethod(final View v){
         PopupMenu popupMenu = new PopupMenu(mainActivity,v);
         popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -211,6 +227,12 @@ public class Table {
                         break;
                     case R.id.remove:
                         Toast.makeText(mainActivity, "You Clicked : " + "Remove", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.summary_visible:
+                        TreeNode<?> treeNode = tree.find(v.getId());
+                        treeNode.setSummaryVisible(!treeNode.getSummaryVisible());
+                        data = tree.getDataToDisplay();
+                        createTableTree();
                         break;
                 }
                 return true;

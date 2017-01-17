@@ -17,6 +17,8 @@ public class TreeNode<T> {
     private TreeNode<T> parent;
     private ArrayList<TreeNode<T>> children;
     private ArrayList<String> dataToDisplay;
+    private String summary;
+    private boolean summaryVisible;
     private boolean visible;
     private boolean childVisible;
     private int treeLevel;
@@ -27,6 +29,8 @@ public class TreeNode<T> {
         this.data = data;
         this.parent = parent;
         children = new ArrayList<>();
+        summary = "dsad";
+        summaryVisible = true;
         visible = true;
         childVisible = true;
         checkboxState = TristateCheckBox.CHECKED;
@@ -328,7 +332,22 @@ public class TreeNode<T> {
             checkboxState = TristateCheckBox.UNCHECKED;
         else
             checkboxState = i;
+    }
 
+    public void setSummaryVisible(boolean summaryVisible){
+        this.summaryVisible = summaryVisible;
+    }
+
+    public boolean getSummaryVisible(){
+        return summaryVisible;
+    }
+
+    public void setSummary(String summary){
+        this.summary = summary;
+    }
+
+    public String getSummary(){
+        return summary;
     }
 
     @Override

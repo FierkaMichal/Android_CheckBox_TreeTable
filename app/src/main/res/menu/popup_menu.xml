@@ -9,4 +9,18 @@
         android:id="@+id/edit"
         android:title="Edit"/>
 
+    <item
+        android:id="@+id/summary"
+        android:title="Summary">
+
+        <menu>
+            <item
+                android:id="@+id/summary_edit"
+                android:title="Edit summary" />
+            <item
+                android:id="@+id/summary_visible"
+                android:title="Change summary visible" />
+        </menu>
+    </item>
+
 </menu>
