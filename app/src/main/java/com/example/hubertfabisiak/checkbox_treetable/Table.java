@@ -97,48 +97,46 @@ public class Table {
                                         return false;
                                     }
                             });
-
+            new_head.setPadding((data.get(i).getTreeLevel()-1) * 50, 5, 5, 5);
             new_head.setLayoutParams(new TableRow.LayoutParams(
                     TableRow.LayoutParams.MATCH_PARENT,
                     TableRow.LayoutParams.WRAP_CONTENT));
             tr_heads.add(i,new_head);
 
-            TristateCheckBox newtcb = new TristateCheckBox(mainActivity){
-                @Override
-                public void onChangedToChecked() {
-                    node.setCheckboxToChecked();
-                    data = tree.getDataToDisplay();
-                    createTableTree();
-                }
+            if(data.get(i).getNumberOfChildren()!=0) {
+                TristateCheckBox newtcb = new TristateCheckBox(mainActivity) {
+                    @Override
+                    public void onChangedToChecked() {
+                        node.setCheckboxToChecked();
+                        data = tree.getDataToDisplay();
+                        createTableTree();
+                    }
 
-                @Override
-                public void onChangedToUnchecked() {
-                    node.setCheckboxToUnchecked();
-                    data = tree.getDataToDisplay();
-                    createTableTree();
-                }
+                    @Override
+                    public void onChangedToUnchecked() {
+                        node.setCheckboxToUnchecked();
+                        data = tree.getDataToDisplay();
+                        createTableTree();
+                    }
 
-                @Override
-                public void onChangedToUnknown() {
-                    node.setCheckboxToUnknown();
-                    data = tree.getDataToDisplay();
-                    createTableTree();
-                }
-            };
-            newtcb.setState(data.get(i).getCheckboxState());
-            new_head.addView(newtcb);
+                    @Override
+                    public void onChangedToUnknown() {
+                        node.setCheckboxToUnknown();
+                        data = tree.getDataToDisplay();
+                        createTableTree();
+                    }
+                };
+                newtcb.setState(data.get(i).getCheckboxState());
+                new_head.addView(newtcb);
+            } else {
+                new_head.setPadding(new_head.getPaddingLeft()+70,0,0,0);
+            }
 
             TextView tv = null;
             for(int j=0;j<data.get(i).getDataToDisplaySize();j++) {
                 tv = new TextView(mainActivity);
                 tv.setText(data.get(i).getDataToDisplayIdx(j));
                 tv.setTextColor(Color.WHITE);
-                if(j==0) {
-                    tv.setPadding((data.get(i).getTreeLevel()-1) * 50, 5, 5, 5);
-                } else {
-                    tv.setPadding(5, 5, 5, 5);
-                }
-
                 new_head.addView(tv);
             }
         }
