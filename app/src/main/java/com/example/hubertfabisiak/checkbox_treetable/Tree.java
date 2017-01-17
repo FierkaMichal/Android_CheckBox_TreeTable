@@ -117,6 +117,19 @@ public class Tree<T> {
         return ifRemove;
     }
 
+    public boolean removeWithChildren(int treeNodeID){
+        boolean ifRemove  = false;
+        TreeNode<T> t = find(treeNodeID);
+
+        if(t != null){
+            t.removeChildren();
+            t.getParent().removeChild(t);
+            ifRemove = true;
+        }
+
+        return ifRemove;
+    }
+
     public boolean removeWithChildren(T dataToRemove){
         boolean ifRemove  = false;
         TreeNode<T> t = find(dataToRemove);
@@ -138,6 +151,7 @@ public class Tree<T> {
             nodeToRemove.getParent().removeChild(nodeToRemove);
             ifRemove = true;
         }
+
         return ifRemove;
     }
 

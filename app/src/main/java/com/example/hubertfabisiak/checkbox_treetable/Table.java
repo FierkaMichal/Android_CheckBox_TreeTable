@@ -48,7 +48,22 @@ public class Table {
                 TableRow.LayoutParams.WRAP_CONTENT));
         tr_heads.add(0,title);
 
-        TristateCheckBox blank = new TristateCheckBox(mainActivity);
+        TristateCheckBox blank = new TristateCheckBox(mainActivity){
+            @Override
+            public void onChangedToChecked() {
+
+            }
+
+            @Override
+            public void onChangedToUnchecked() {
+
+            }
+
+            @Override
+            public void onChangedToUnknown() {
+
+            }
+        };
         title.addView(blank);
         blank.setFocusable(false);
         blank.setClickable(false);
@@ -63,6 +78,7 @@ public class Table {
         }
 
         for (int i = 1; i < data.size(); i++) {
+            final TreeNode<?> node = data.get(i);
             TableRow new_head = new TableRow(mainActivity);
             new_head.setId(data.get(i).getTreeNodeId());
             new_head.setBackgroundColor(Color.GRAY);
@@ -87,7 +103,28 @@ public class Table {
                     TableRow.LayoutParams.WRAP_CONTENT));
             tr_heads.add(i,new_head);
 
-            TristateCheckBox newtcb = new TristateCheckBox(mainActivity);
+            TristateCheckBox newtcb = new TristateCheckBox(mainActivity){
+                @Override
+                public void onChangedToChecked() {
+                    node.setCheckboxToChecked();
+                    data = tree.getDataToDisplay();
+                    createTableTree();
+                }
+
+                @Override
+                public void onChangedToUnchecked() {
+                    node.setCheckboxToUnchecked();
+                    data = tree.getDataToDisplay();
+                    createTableTree();
+                }
+
+                @Override
+                public void onChangedToUnknown() {
+                    node.setCheckboxToUnknown();
+                    data = tree.getDataToDisplay();
+                    createTableTree();
+                }
+            };
             newtcb.setState(data.get(i).getCheckboxState());
             new_head.addView(newtcb);
 

@@ -95,6 +95,7 @@ public class TreeNode<T> {
     }
 
     public void setCheckboxToUnknown(){
+        boolean ifChildrenLeaf = false;
         setCheckboxState(TristateCheckBox.UNKNOWN);
         setChildVisible(true);
         for(int i = 0; i < children.size(); i++){
@@ -103,7 +104,11 @@ public class TreeNode<T> {
                 child.setVisible(true);
                 child.setCheckboxState(TristateCheckBox.UNCHECKED);
             }
+            if(!child.isLeaf())
+                ifChildrenLeaf = true;
         }
+        if(!ifChildrenLeaf)
+            setCheckboxToChecked();
     }
 
     public void setCheckboxToUnchecked(){
@@ -114,6 +119,8 @@ public class TreeNode<T> {
                 child.setCheckboxToUnchecked();
             }
         }
+        if(parent != null)
+            parent.setCheckboxState(TristateCheckBox.UNKNOWN);
         setChildVisible(false);
         setCheckboxState(TristateCheckBox.UNCHECKED);
     }
@@ -123,6 +130,15 @@ public class TreeNode<T> {
             TreeNode<T> child = children.get(i);
             child.setVisible(true);
             child.setCheckboxToChecked();
+        }
+        if(parent != null){
+            ArrayList<TreeNode<T>> parentChildrenList = parent.getChildren();
+            int i = 0;
+            while(i < parentChildrenList.size() &&
+                    (parentChildrenList.get(i).isLeaf() || parentChildrenList.get(i).getCheckboxState() == TristateCheckBox.CHECKED))
+                i++;
+            if(i == parentChildrenList.size())
+                parent.setCheckboxState(TristateCheckBox.CHECKED);
         }
         setChildVisible(true);
         setCheckboxState(TristateCheckBox.CHECKED);
