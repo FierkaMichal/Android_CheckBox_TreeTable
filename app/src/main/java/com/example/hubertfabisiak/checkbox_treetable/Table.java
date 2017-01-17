@@ -59,8 +59,6 @@ public class Table {
         }
 
         for (int i = 1; i < data.size(); i++) {
-
-
             TableRow new_head = new TableRow(mainActivity);
             new_head.setId(data.get(i).getTreeNodeId());
             new_head.setBackgroundColor(Color.GRAY);

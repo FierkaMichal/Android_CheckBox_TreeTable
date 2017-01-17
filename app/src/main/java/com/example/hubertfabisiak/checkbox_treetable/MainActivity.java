@@ -5,7 +5,10 @@ import android.support.v7.app.AppCompatActivity;;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ScrollView;
 import android.widget.TableLayout;
 
 public class MainActivity extends AppCompatActivity {
@@ -16,15 +19,16 @@ public class MainActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-         setContentView(R.layout.table_layout);
-         new Settings();
-         new XMLReader(this);
-         TreeTableModel ttm = new TreeTableModel();
-         table = new Table(this,(TableLayout) findViewById(R.id.main_table));
+        setContentView(R.layout.activity_main);
+        ScrollView scrollView = (ScrollView) findViewById(R.id.scroll);
+        getLayoutInflater().inflate(R.layout.table_layout, scrollView,true);
 
-         table.init(ttm.getTree(),ttm.getData());
-
-     }
+        new Settings();
+        new XMLReader(this);
+        TreeTableModel ttm = new TreeTableModel();
+        table = new Table(this, (TableLayout) findViewById(R.id.main_table));
+        table.init(ttm.getTree(), ttm.getData());
+    }
 
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -43,6 +47,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        if (item.getTitle() == "Edit") {
+            //function1(item.getItemId());
+        } else if (item.getTitle() == "Remove") {
+            //function2(item.getItemId());
+        } else {
+            return false;
+        }
+        return true;
+    }
 
 
 

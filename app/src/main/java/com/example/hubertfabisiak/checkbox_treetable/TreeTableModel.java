@@ -35,6 +35,19 @@ public class TreeTableModel {
         tree.add(tree.find(c3), c6);
         tree.add(tree.find(c4), c7);
         tree.add(tree.find(c5), c1);
+        tree.add(tree.getRoot(),new Car(4, "c5", 5.1));
+        tree.add(tree.getRoot(),new Car(4, "c5", 5.1));
+        tree.add(tree.getRoot(),new Car(4, "c5", 5.1));
+        tree.add(tree.getRoot(),new Car(4, "c5", 5.1));
+        tree.add(tree.getRoot(),new Car(4, "c5", 5.1));
+        tree.add(tree.getRoot(),new Car(4, "c5", 5.1));
+        tree.add(tree.getRoot(),new Car(4, "c5", 5.1));
+        tree.add(tree.getRoot(),new Car(4, "c5", 5.1));
+        tree.add(tree.getRoot(),new Car(4, "c5", 5.1));
+        tree.add(tree.getRoot(),new Car(4, "c5", 5.1));
+        tree.add(tree.getRoot(),new Car(4, "c5", 5.1));
+
+
 
         data = tree.getDataToDisplay();
     }
