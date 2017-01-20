@@ -181,6 +181,17 @@ public class Tree<T> {
         return ifRemove;
     }
 
+    public void swapTreeNode(int ID1, int ID2){
+        TreeNode treeNode1 = find(ID1);
+        TreeNode treeNode2 = find(ID2);
+
+        if(treeNode1 != null && treeNode2 != null){
+            TreeNode parent1 = treeNode1.getParent();
+            treeNode1.setParent(treeNode2.getParent());
+            treeNode2.setParent(parent1);
+        }
+    }
+
     public boolean ifContain(T data){
         if(find(data) != null)
             return true;
