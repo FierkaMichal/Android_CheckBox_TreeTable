@@ -260,6 +260,20 @@ public class Tree<T> {
         return root;
     }
 
+    public void changeParent(int idNode, int idNewParent) {
+        TreeNode node= find(idNode);
+        TreeNode parent = find(idNewParent);
+        TreeNode oldParent = node.getParent();
+
+        if(node!=null && parent!=null) {
+            node.setParent(parent);
+            oldParent.removeChild(node);
+
+            parent.addChild(node);
+            node.setTreeLevel(parent.getTreeLevel()+1);
+        }
+    }
+
     public boolean isEmpty(){
         if(root == null)
             return true;
