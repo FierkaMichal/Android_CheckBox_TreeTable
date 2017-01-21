@@ -44,11 +44,10 @@ public class Table <T> {
     public Table(Activity mainActivity, TableLayout tableLayout) {
         this.mainActivity = mainActivity;
         this.tl = tableLayout;
-        relacatingNode=false;
+        relacatingNode = false;
     }
 
-    public void init( Tree<T> tree,ArrayList<TreeNode<T>> data) {
-
+    public void init(Tree<T> tree,ArrayList<TreeNode<T>> data) {
         this.tree = tree;
         this.data = data;
         createTableTree();
@@ -221,18 +220,20 @@ public class Table <T> {
             Log.d("qqqqq","ten " + relocatingId);
             Log.d("qqqqq","z tym " + v.getId()); // dobrze
             tree.changeParent(relocatingId,v.getId());
-            relacatingNode=false;
+            relacatingNode = false;
             Toast.makeText(mainActivity, "Please select new parent for row " + relocatingId + ".", Toast.LENGTH_SHORT).show();
         } else {
             data.get(i).onClick();
 
         }
-        data = tree.getDataToDisplay();
-        createTableTree();
+//        data = tree.getDataToDisplay();
+//        createTableTree();
+        updateTable();
     }
 
     public void updateTable() {
-
+        data = tree.getDataToDisplay();
+        createTableTree();
     }
 
     private TableRow createSummary(TreeNode<?> treeNode) {
@@ -258,8 +259,8 @@ public class Table <T> {
                         showEditDialog();
                         break;
                     case R.id.remove:
-                        tree.remove( v.getId()); //pawel popraw
-                        Toast.makeText(mainActivity, "You removed row" + v.getId() + ".", Toast.LENGTH_SHORT).show();
+                        tree.remove(v.getId()); //pawel popraw
+                        Toast.makeText(mainActivity, "You removed row " + v.getId() + ".  Refresh data.", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.summary_visible:
                         TreeNode<?> treeNode = tree.find(v.getId());
@@ -302,7 +303,6 @@ public class Table <T> {
             }
 
         }
-
         // setup a dialog window
         alertDialogBuilder.setCancelable(false)
                 .setPositiveButton("Add new element", new DialogInterface.OnClickListener() {

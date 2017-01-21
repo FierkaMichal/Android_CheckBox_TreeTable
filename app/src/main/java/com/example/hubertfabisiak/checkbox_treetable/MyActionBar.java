@@ -13,7 +13,10 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.TableLayout;
 import android.widget.Toast;
+
+import com.example.hubertfabisiak.checkbox_treetable.model.Tree;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -28,6 +31,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 
 /**
  * Created by hubertfabisiak on 17.01.2017.
@@ -40,10 +44,15 @@ public class MyActionBar {
             android.Manifest.permission.READ_EXTERNAL_STORAGE,
             android.Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
-    Activity mainActivity;
 
-    public MyActionBar(Activity mainActivity){
+    Activity mainActivity;
+    Table table;
+    ArrayList<EditText> editTexts;
+
+    public MyActionBar(Activity mainActivity,Table table){
         this.mainActivity = mainActivity;
+        this.table = table;
+        editTexts = new ArrayList<EditText>();
     }
 
     public boolean onOptionsSelection(MenuItem item){
@@ -54,7 +63,8 @@ public class MyActionBar {
                 showAddDialog();
                 break;
             case R.id.refresh_action:
-                Toast.makeText(mainActivity, "Data refreshed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mainActivity, "Data refreshed.", Toast.LENGTH_SHORT).show();
+                table.updateTable();
                 break;
             case R.id.export_xml:
                 AlertDialog.Builder builder = new AlertDialog.Builder(mainActivity);
@@ -142,7 +152,7 @@ public class MyActionBar {
         String userName = "username";
         String password = "password";
         System.out.println("EXTERNAL STORAGE is " + isExternalStorageWritable());
-        //verifyStoragePermissions(mainActivity);
+        //verifyStoragePermissions(activity);
 
         if (Build.VERSION.SDK_INT >= 23) {
             if (mainActivity.checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
@@ -274,21 +284,33 @@ public class MyActionBar {
 
         Field[] fields = Car.class.getDeclaredFields();
 
-        EditText edit;
+        editTexts.clear();
+        //Adding EditTexts to the View
         for (int i = 0; i < fields.length; i++) {
-            edit = new EditText(mainActivity);
+            editTexts.add(new EditText(mainActivity));
+            //editTexts[i] = new EditText(mainActivity);
             if(!fields[i].isSynthetic() && fields[i].getName() != "serialVersionUID") {
-                edit.setHint(fields[i].getName().toString());
-                promptView.addView(edit);
+                editTexts.get(i).setHint(fields[i].getName().toString());
+                promptView.addView(editTexts.get(i));
             }
-
         }
 
-        // setup a dialog window
-        alertDialogBuilder.setCancelable(false)
+
+        // Setup a dialog window
+        alertDialogBuilder.setCancelable(true)
                 .setPositiveButton("Add new element", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        Toast.makeText(mainActivity, "Added new element. Refresh data.", Toast.LENGTH_SHORT).show();
+                        //Checking if all editTexts are filled
+                        String text;
+                        for (int i = 0; i < editTexts.size(); i++) {
+
+                            text = editTexts.get(i).getText().toString();
+                            if(text.matches("")){
+                                Toast.makeText(mainActivity, "Fill all fields.", Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+                        //Toast.makeText(mainActivity, "Added new element. Refresh data.", Toast.LENGTH_SHORT).show();
 
                     }
                 })
@@ -304,12 +326,6 @@ public class MyActionBar {
         AlertDialog alert = alertDialogBuilder.create();
         alert.show();
     }
-
-
-
-
-
-
 
 //    public static void verifyStoragePermissions(Activity activity){
 //        //Check if we have write permission

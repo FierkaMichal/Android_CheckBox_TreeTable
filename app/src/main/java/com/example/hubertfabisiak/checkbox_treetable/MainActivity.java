@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        actionBar = new MyActionBar(this);
+
 
         setContentView(R.layout.activity_main);
         ScrollView scrollView = (ScrollView) findViewById(R.id.scroll);
@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
         TreeTableModel ttm = new TreeTableModel();
         table = new Table(this, (TableLayout) findViewById(R.id.main_table));
         table.init(ttm.getTree(), ttm.getData());
+        actionBar = new MyActionBar(this,table);
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
