@@ -60,10 +60,6 @@ public class MyActionBar {
             case R.id.add_action:
                 showAddDialog();
                 break;
-            case R.id.edit_action:
-                break;
-            case R.id.remove_action:
-                break;
             case R.id.refresh_action:
                 Toast.makeText(mainActivity, "Data refreshed", Toast.LENGTH_SHORT).show();
                 break;
@@ -299,12 +295,14 @@ public class MyActionBar {
         alertDialogBuilder.setCancelable(false)
                 .setPositiveButton("Add new element", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        Toast.makeText(mainActivity, "Added new element. Refresh data.", Toast.LENGTH_SHORT).show();
 
                     }
                 })
                 .setNegativeButton("Cancel",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
+                                Toast.makeText(mainActivity, "Adding cancelled.", Toast.LENGTH_SHORT).show();
                                 dialog.cancel();
                             }
                         });

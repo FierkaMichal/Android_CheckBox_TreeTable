@@ -1,17 +1,24 @@
 package com.example.hubertfabisiak.checkbox_treetable;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.graphics.Color;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -243,7 +250,7 @@ public class Table {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.edit:
-                        Toast.makeText(mainActivity, "You Clicked : " + "Edit", Toast.LENGTH_SHORT).show();
+                        showEditDialog();
                         break;
                     case R.id.remove:
                         Toast.makeText(mainActivity, "You Clicked : " + "Remove", Toast.LENGTH_SHORT).show();
@@ -264,6 +271,54 @@ public class Table {
         });
         popupMenu.show();
     }
+
+    public void showEditDialog(){
+
+        // get prompts.xml view
+        LayoutInflater layoutInflater = LayoutInflater.from(mainActivity);
+        LinearLayout promptView = (LinearLayout)layoutInflater.inflate(R.layout.add_dialog, null);
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mainActivity);
+
+        ScrollView addingScroll = (ScrollView) mainActivity.findViewById(R.id.scrollingAdd);
+        mainActivity.getLayoutInflater().inflate(R.layout.add_dialog, addingScroll,true);
+        alertDialogBuilder.setView(promptView);
+
+        Field[] fields = Car.class.getDeclaredFields();
+
+        EditText edit;
+        for (int i = 0; i < fields.length; i++) {
+            edit = new EditText(mainActivity);
+            if(!fields[i].isSynthetic() && fields[i].getName() != "serialVersionUID") {
+                edit.setHint(fields[i].getName().toString());
+                promptView.addView(edit);
+            }
+
+        }
+
+        // setup a dialog window
+        alertDialogBuilder.setCancelable(false)
+                .setPositiveButton("Add new element", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Toast.makeText(mainActivity, "Edit done. Refresh data.", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Toast.makeText(mainActivity, "Edit cancelled.", Toast.LENGTH_SHORT).show();
+                                dialog.cancel();
+                            }
+                        });
+
+        // create an alert dialog
+        AlertDialog alert = alertDialogBuilder.create();
+        alert.show();
+    }
+
+
+
+
 }
 
 

@@ -7,17 +7,6 @@
         android:icon="@android:drawable/ic_menu_add"
         android:title="@string/add_node"
         app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/edit_action"
-        android:icon="@android:drawable/ic_menu_edit"
-        android:title="@string/edit_node"
-        app:showAsAction="ifRoom" />
-
-    <item
-        android:id="@+id/remove_action"
-        android:icon="@android:drawable/btn_dialog"
-        android:title="@string/remove_node"
-        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/refresh_action"
