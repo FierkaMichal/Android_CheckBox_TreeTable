@@ -1,17 +1,24 @@
 package com.example.hubertfabisiak.checkbox_treetable;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.graphics.Color;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -38,6 +45,7 @@ public class Table <T> {
     }
 
     public void init( Tree<T> tree,ArrayList<TreeNode<T>> data) {
+
         this.tree = tree;
         this.data = data;
         createTableTree();
@@ -52,7 +60,7 @@ public class Table <T> {
         title.setLayoutParams(new TableRow.LayoutParams(
                 TableRow.LayoutParams.MATCH_PARENT,
                 TableRow.LayoutParams.WRAP_CONTENT));
-        tr_heads.add(0,title);
+        tr_heads.add(0, title);
 
         final TristateCheckBox blank = new TristateCheckBox(mainActivity){
             @Override
@@ -75,15 +83,15 @@ public class Table <T> {
         blank.setClickable(false);
 
         TextView titleV = null;
-        for(int i=0;i<Settings.getVariablesToDisplaySize();i++) {
+        for (int i = 0; i < Settings.getVariablesToDisplaySize(); i++) {
             titleV = new TextView(mainActivity);
             titleV.setText(Settings.getVariableToDisplay(i));
             titleV.setTextColor(Color.BLACK);
-            if(i==0) {
+            if (i == 0) {
                 TableRow.LayoutParams params = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 0.1f);
                 titleV.setLayoutParams(params);
             }
-            titleV.setPadding(0,0,100,0);
+            titleV.setPadding(0, 0, 100, 0);
             title.addView(titleV);
         }
 
@@ -95,26 +103,26 @@ public class Table <T> {
             new_head.setClickable(true);
             new_head.setFocusable(true);
             new_head.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v)
-                {
+                public void onClick(View v) {
                     onClickMethod(v);
-                } });
+                }
+            });
 
-            new_head.setOnLongClickListener(new View.OnLongClickListener(){
-                                @Override
-                                public boolean onLongClick(View v) {
-                                        onLongClickMethod(v);
-                                        return false;
-                                    }
-                            });
-            new_head.setPadding((data.get(i).getTreeLevel()-1) * 50, 5, 5, 5);
+            new_head.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    onLongClickMethod(v);
+                    return false;
+                }
+            });
+            new_head.setPadding((data.get(i).getTreeLevel() - 1) * 50, 5, 5, 5);
             new_head.setLayoutParams(new TableRow.LayoutParams(
                     TableRow.LayoutParams.MATCH_PARENT,
                     TableRow.LayoutParams.WRAP_CONTENT));
 
             tr_heads.add(new_head);
 
-            if(data.get(i).getSummaryVisible() && !data.get(i).isLeaf()){
+            if (data.get(i).getSummaryVisible() && !data.get(i).isLeaf()) {
                 tr_heads.add(createSummary(data.get(i)));
             }
 
@@ -125,7 +133,7 @@ public class Table <T> {
 //            new_head.addView(tv);
             //
             TextView tv;
-            if(data.get(i).getNumberOfChildren()!=0) {
+            if (data.get(i).getNumberOfChildren() != 0) {
                 TristateCheckBox newtcb = new TristateCheckBox(mainActivity) {
                     @Override
                     public void onChangedToChecked() {
@@ -158,11 +166,11 @@ public class Table <T> {
             }
 
 
-            for(int j=0;j<data.get(i).getDataToDisplaySize();j++) {
+            for (int j = 0; j < data.get(i).getDataToDisplaySize(); j++) {
                 tv = new TextView(mainActivity);
                 tv.setText(data.get(i).getDataToDisplayIdx(j));
                 tv.setTextColor(Color.WHITE);
-                if(j==0) {
+                if (j == 0) {
                     TableRow.LayoutParams params = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 0.1f);
                     tv.setLayoutParams(params);
                 }
@@ -180,7 +188,7 @@ public class Table <T> {
         tl.removeAllViews();
         tl.setWeightSum(1);
         tl.setShrinkAllColumns(true);
-        for(TableRow tr : tr_heads) {
+        for (TableRow tr : tr_heads) {
             v = new View(mainActivity);
             v.setLayoutParams(new ViewGroup.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, 15));
@@ -201,8 +209,8 @@ public class Table <T> {
     }
 
     private void onClickMethod(View v) {
-        int i=0;
-        while(data.get(i).getTreeNodeId()!=v.getId()) {
+        int i = 0;
+        while (data.get(i).getTreeNodeId() != v.getId()) {
             i++;
         }
 
@@ -224,7 +232,7 @@ public class Table <T> {
 
     }
 
-    private TableRow createSummary(TreeNode<?> treeNode){
+    private TableRow createSummary(TreeNode<?> treeNode) {
         TableRow summary = new TableRow(mainActivity);
         summary.setLayoutParams(new TableRow.LayoutParams(
                 TableRow.LayoutParams.MATCH_PARENT,
@@ -237,14 +245,14 @@ public class Table <T> {
         return summary;
     }
 
-    private void onLongClickMethod(final View v){
-        PopupMenu popupMenu = new PopupMenu(mainActivity,v);
+    private void onLongClickMethod(final View v) {
+        PopupMenu popupMenu = new PopupMenu(mainActivity, v);
         popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()){
+                switch (item.getItemId()) {
                     case R.id.edit:
-                        Toast.makeText(mainActivity, "You Clicked : " + "Edit", Toast.LENGTH_SHORT).show();
+                        showEditDialog();
                         break;
                     case R.id.remove:
                         tree.remove( v.getId()); //pawel popraw
@@ -267,6 +275,54 @@ public class Table <T> {
         });
         popupMenu.show();
     }
+
+    public void showEditDialog(){
+
+        // get prompts.xml view
+        LayoutInflater layoutInflater = LayoutInflater.from(mainActivity);
+        LinearLayout promptView = (LinearLayout)layoutInflater.inflate(R.layout.add_dialog, null);
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mainActivity);
+
+        ScrollView addingScroll = (ScrollView) mainActivity.findViewById(R.id.scrollingAdd);
+        mainActivity.getLayoutInflater().inflate(R.layout.add_dialog, addingScroll,true);
+        alertDialogBuilder.setView(promptView);
+
+        Field[] fields = Car.class.getDeclaredFields();
+
+        EditText edit;
+        for (int i = 0; i < fields.length; i++) {
+            edit = new EditText(mainActivity);
+            if(!fields[i].isSynthetic() && fields[i].getName() != "serialVersionUID") {
+                edit.setHint(fields[i].getName().toString());
+                promptView.addView(edit);
+            }
+
+        }
+
+        // setup a dialog window
+        alertDialogBuilder.setCancelable(false)
+                .setPositiveButton("Add new element", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Toast.makeText(mainActivity, "Edit done. Refresh data.", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Toast.makeText(mainActivity, "Edit cancelled.", Toast.LENGTH_SHORT).show();
+                                dialog.cancel();
+                            }
+                        });
+
+        // create an alert dialog
+        AlertDialog alert = alertDialogBuilder.create();
+        alert.show();
+    }
+
+
+
+
 }
 
 
