@@ -1,4 +1,8 @@
-package com.example.hubertfabisiak.checkbox_treetable;
+package com.example.hubertfabisiak.checkbox_treetable.model;
+
+import com.example.hubertfabisiak.checkbox_treetable.Car;
+import com.example.hubertfabisiak.checkbox_treetable.Settings;
+import com.example.hubertfabisiak.checkbox_treetable.ToDisplay;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;

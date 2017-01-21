@@ -1,4 +1,9 @@
-package com.example.hubertfabisiak.checkbox_treetable;
+package com.example.hubertfabisiak.checkbox_treetable.model;
+
+import com.example.hubertfabisiak.checkbox_treetable.Car;
+import com.example.hubertfabisiak.checkbox_treetable.Settings;
+import com.example.hubertfabisiak.checkbox_treetable.ToDisplay;
+import com.example.hubertfabisiak.checkbox_treetable.TristateCheckBox;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -11,7 +16,7 @@ import java.util.Map;
  * Created by Pawel on 15.01.2017.
  */
 
-public class TreeNode<T> {
+public class TreeNode<T> extends Observable implements OnChangeListener {
 
     private T data;
     private TreeNode<T> parent;
@@ -30,7 +35,7 @@ public class TreeNode<T> {
         this.parent = parent;
         children = new ArrayList<>();
         summary = "dsad";
-        summaryVisible = true;
+        summaryVisible = false;
         visible = true;
         childVisible = true;
         checkboxState = TristateCheckBox.CHECKED;
@@ -42,11 +47,40 @@ public class TreeNode<T> {
             treeLevel = parent.getTreeLevel() + 1;
         else
             treeLevel = 0;
+
+        if(parent != null)
+            this.parent.addListener(this);
     }
 
     public TreeNode(T data, TreeNode<T> parent, T child){
         this(data, parent);
         addChildren(child);
+    }
+
+    @Override
+    public void onChange(Object parent) {
+        TreeNode parenNode = (TreeNode) parent;
+
+        switch (parenNode.getState()){
+            case 0:         //parent zmienia treeLevel
+                this.setTreeLevel(parenNode.getTreeLevel()+1);
+                break;
+            case 1:         //checkbox to unknown
+                this.setVisible(true);
+                this.setCheckboxToUnchecked();
+                break;
+            case 2:         //checkbox to unchecked
+                this.setVisible(false);
+                this.setChildrenCheckboxToUnchecked();
+                break;
+            case 3:         //checkbox to checked
+                this.setVisible(true);
+                this.setChildrenCheckboxToChecked();
+                break;
+            default:
+                break;
+        }
+
     }
 
     public void addChildren(T data){
@@ -106,53 +140,80 @@ public class TreeNode<T> {
     }
 
     public void setCheckboxToUnknown(){
-        boolean ifChildrenLeaf = false;
+        boolean czyDzieciSaRozwiniete = true;
         setCheckboxState(TristateCheckBox.UNKNOWN);
         setChildVisible(true);
         for(int i = 0; i < children.size(); i++){
             TreeNode<T> child = children.get(i);
-            if(!child.getVisible()) {
-                child.setVisible(true);
-                child.setCheckboxState(TristateCheckBox.UNCHECKED);
+            if (child.getCheckboxState() != TristateCheckBox.CHECKED) {
+                if(!child.isLeaf())
+                    czyDzieciSaRozwiniete = false;
             }
-            if(!child.isLeaf())
-                ifChildrenLeaf = true;
         }
-        if(!ifChildrenLeaf)
+        if(czyDzieciSaRozwiniete)
             setCheckboxToChecked();
+        else {
+            this.setState(1);
+            this.notifyObservers(this);
+        }
     }
 
     public void setCheckboxToUnchecked(){
-        for(int i = 0; i < children.size(); i++){
-            TreeNode<T> child = children.get(i);
-            if(child.getVisible()) {
-                child.setVisible(false);
-                child.setCheckboxToUnchecked();
-            }
-        }
-        if(parent != null)
-            parent.setCheckboxState(TristateCheckBox.UNKNOWN);
         setChildVisible(false);
         setCheckboxState(TristateCheckBox.UNCHECKED);
+
+        if(parent != null && parent.getCheckboxState() != TristateCheckBox.UNKNOWN)
+            parent.setParentCheckboxToUnknown();
+
+        this.setState(2);
+        this.notifyObservers(this);
+    }
+
+    private void setChildrenCheckboxToUnchecked(){
+        setChildVisible(false);
+        setCheckboxState(TristateCheckBox.UNCHECKED);
+        this.setState(2);
+        this.notifyObservers(this);
+    }
+
+    private void setParentCheckboxToUnknown(){
+        setCheckboxState(TristateCheckBox.UNKNOWN);
+        if(parent != null && parent.getCheckboxState() != TristateCheckBox.UNKNOWN)
+            parent.setParentCheckboxToUnknown();
+
     }
 
     public void setCheckboxToChecked(){
-        for(int i = 0; i < children.size(); i++){
-            TreeNode<T> child = children.get(i);
-            child.setVisible(true);
-            child.setCheckboxToChecked();
-        }
-        if(parent != null){
-            ArrayList<TreeNode<T>> parentChildrenList = parent.getChildren();
-            int i = 0;
-            while(i < parentChildrenList.size() &&
-                    (parentChildrenList.get(i).isLeaf() || parentChildrenList.get(i).getCheckboxState() == TristateCheckBox.CHECKED))
-                i++;
-            if(i == parentChildrenList.size())
-                parent.setCheckboxState(TristateCheckBox.CHECKED);
-        }
         setChildVisible(true);
         setCheckboxState(TristateCheckBox.CHECKED);
+
+        if(parent != null && parent.getCheckboxState() != TristateCheckBox.CHECKED){
+            parent.setParentCheckboxToChecked();
+        }
+
+        this.setState(3);
+        this.notifyObservers(this);
+    }
+
+    private void setChildrenCheckboxToChecked(){
+        setChildVisible(true);
+        setCheckboxState(TristateCheckBox.CHECKED);
+        this.setState(3);
+        this.notifyObservers(this);
+    }
+
+    private void setParentCheckboxToChecked(){
+        ArrayList<TreeNode<T>> childrenList = getChildren();
+        int i = 0;
+        while(i < childrenList.size() &&
+                (childrenList.get(i).isLeaf() || childrenList.get(i).getCheckboxState() == TristateCheckBox.CHECKED))
+            i++;
+        if(i == childrenList.size())
+            setCheckboxState(TristateCheckBox.CHECKED);
+
+        if(parent != null && parent.getCheckboxState() != TristateCheckBox.CHECKED){
+            parent.setParentCheckboxToChecked();
+        }
     }
 
     public void checkIfNodeContainsValuesToDisplay() {
@@ -288,6 +349,7 @@ public class TreeNode<T> {
 
     public void setParent(TreeNode<T> parent){
         this.parent = parent;
+        this.setTreeLevel(parent.getTreeLevel()+1);
     }
 
     public void addChild(TreeNode<T> child) {
@@ -312,6 +374,8 @@ public class TreeNode<T> {
 
     public void setTreeLevel(int treeLevel){
         this.treeLevel = treeLevel;
+        this.setState(0);
+        this.notifyObservers(this);
     }
 
     public void setChildVisible(boolean childVisible){

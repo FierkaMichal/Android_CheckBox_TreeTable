@@ -5,6 +5,9 @@ package com.example.hubertfabisiak.checkbox_treetable;
  */
 
 
+import com.example.hubertfabisiak.checkbox_treetable.model.Tree;
+import com.example.hubertfabisiak.checkbox_treetable.model.TreeNode;
+
 import java.util.ArrayList;
 
 public class TreeTableModel {
@@ -27,6 +30,7 @@ public class TreeTableModel {
         Car c5 = new Car(4, "c5", "test",5.1);
         Car c6 = new Car(9, "c6","dluuuuuuuuugi", 5.1);
         Car c7 = new Car(3, "c7","dom_domowo", 5.1);
+        Car c8 = new Car(3, "c8","dom", 5.1);
         tree = new Tree<Car>(c1);
 
         tree.add(tree.getRoot(), c3);
@@ -34,6 +38,8 @@ public class TreeTableModel {
         tree.add(tree.find(c3), c5);
         tree.add(tree.find(c3), c6);
         tree.add(tree.find(c4), c7);
+        tree.add(tree.find(c5), c2);
+        tree.add(tree.find(c2), c8);
         //tree.add(tree.find(c5), c1);
 //        tree.add(tree.getRoot(),new Car(4, "c5", 5.1));
 //        tree.add(tree.getRoot(),new Car(4, "c5", 5.1));
