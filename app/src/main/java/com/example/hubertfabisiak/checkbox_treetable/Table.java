@@ -18,6 +18,9 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.hubertfabisiak.checkbox_treetable.model.Tree;
+import com.example.hubertfabisiak.checkbox_treetable.model.TreeNode;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.LinkedList;
