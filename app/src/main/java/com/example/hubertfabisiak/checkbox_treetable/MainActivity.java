@@ -1,19 +1,12 @@
 package com.example.hubertfabisiak.checkbox_treetable;
 
-import android.app.Activity;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
-import android.view.MenuInflater;;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
-
-import java.util.jar.Manifest;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
         table = new Table(this, (TableLayout) findViewById(R.id.main_table));
         table.init(ttm.getTree(), ttm.getData());
     }
-
 
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
