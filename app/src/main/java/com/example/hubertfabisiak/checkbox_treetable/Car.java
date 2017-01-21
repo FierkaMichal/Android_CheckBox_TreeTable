@@ -13,12 +13,23 @@ public class Car {
     //@ToDisplay(index = 1)
     private double maxSpeed;
 
+    public Car(){
+
+    }
+
     public Car(int size, String id, String mark, double maxSpeed) {
         super();
         this.size = size;
         this.mark = mark;
         this.id = id;
         this.maxSpeed = maxSpeed;
+    }
+
+    public void wypisz(){
+        System.out.println("Size: " + this.size);
+        System.out.println("Id: " + this.id);
+        System.out.println("Mark: " + this.mark);
+        System.out.println("MaxSpeed: " + this.maxSpeed);
     }
 
 }

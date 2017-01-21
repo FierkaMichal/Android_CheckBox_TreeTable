@@ -36,6 +36,8 @@ public class Table <T> {
     TableLayout tl;
     ArrayList<TreeNode<T>> data;
     Tree<T> tree;
+    ArrayList<EditText> editTexts;
+    boolean fieldsFilled;
 
     //
     boolean relacatingNode;
@@ -45,6 +47,8 @@ public class Table <T> {
         this.mainActivity = mainActivity;
         this.tl = tableLayout;
         relacatingNode = false;
+        editTexts = new ArrayList<EditText>();
+        fieldsFilled = false;
     }
 
     public void init(Tree<T> tree,ArrayList<TreeNode<T>> data) {
@@ -67,17 +71,14 @@ public class Table <T> {
         final TristateCheckBox blank = new TristateCheckBox(mainActivity){
             @Override
             public void onChangedToChecked() {
-
             }
 
             @Override
             public void onChangedToUnchecked() {
-
             }
 
             @Override
             public void onChangedToUnknown() {
-
             }
         };
         title.addView(blank);
@@ -167,7 +168,6 @@ public class Table <T> {
                 new_head.addView(tv);
             }
 
-
             for (int j = 0; j < data.get(i).getDataToDisplaySize(); j++) {
                 tv = new TextView(mainActivity);
                 tv.setText(data.get(i).getDataToDisplayIdx(j));
@@ -176,12 +176,10 @@ public class Table <T> {
                     TableRow.LayoutParams params = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 0.1f);
                     tv.setLayoutParams(params);
                 }
-
                 //test
-                if(j==1) {
+                if (j == 1) {
                     tv.setText(new_head.getId()+"");
                 }
-
                 new_head.addView(tv);
             }
         }
@@ -224,7 +222,6 @@ public class Table <T> {
             Toast.makeText(mainActivity, "Please select new parent for row " + relocatingId + ".", Toast.LENGTH_SHORT).show();
         } else {
             data.get(i).onClick();
-
         }
 //        data = tree.getDataToDisplay();
 //        createTableTree();
@@ -305,7 +302,7 @@ public class Table <T> {
         }
         // setup a dialog window
         alertDialogBuilder.setCancelable(false)
-                .setPositiveButton("Add new element", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Edit", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         Toast.makeText(mainActivity, "Edit done. Refresh data.", Toast.LENGTH_SHORT).show();
                     }

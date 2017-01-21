@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.util.Xml;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -48,11 +49,13 @@ public class MyActionBar {
     Activity mainActivity;
     Table table;
     ArrayList<EditText> editTexts;
+    boolean fieldsFilled;
 
     public MyActionBar(Activity mainActivity,Table table){
         this.mainActivity = mainActivity;
         this.table = table;
         editTexts = new ArrayList<EditText>();
+        fieldsFilled = false;
     }
 
     public boolean onOptionsSelection(MenuItem item){
@@ -132,10 +135,7 @@ public class MyActionBar {
 
 
     }
-
-
     public void exportToJsonFile(){
-
     }
 
     public boolean isExternalStorageWritable() {
@@ -272,7 +272,6 @@ public class MyActionBar {
 
     public void showAddDialog(){
 
-        // get prompts.xml view
         LayoutInflater layoutInflater = LayoutInflater.from(mainActivity);
         LinearLayout promptView = (LinearLayout)layoutInflater.inflate(R.layout.add_dialog, null);
 
@@ -282,49 +281,83 @@ public class MyActionBar {
         mainActivity.getLayoutInflater().inflate(R.layout.add_dialog, addingScroll,true);
         alertDialogBuilder.setView(promptView);
 
-        Field[] fields = Car.class.getDeclaredFields();
+        final Field[] fields = Car.class.getDeclaredFields();
 
         editTexts.clear();
         //Adding EditTexts to the View
         for (int i = 0; i < fields.length; i++) {
-            editTexts.add(new EditText(mainActivity));
             //editTexts[i] = new EditText(mainActivity);
             if(!fields[i].isSynthetic() && fields[i].getName() != "serialVersionUID") {
+                editTexts.add(new EditText(mainActivity));
                 editTexts.get(i).setHint(fields[i].getName().toString());
                 promptView.addView(editTexts.get(i));
             }
         }
 
-
         // Setup a dialog window
         alertDialogBuilder.setCancelable(true)
                 .setPositiveButton("Add new element", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        //Checking if all editTexts are filled
-                        String text;
-                        for (int i = 0; i < editTexts.size(); i++) {
-
-                            text = editTexts.get(i).getText().toString();
-                            if(text.matches("")){
-                                Toast.makeText(mainActivity, "Fill all fields.", Toast.LENGTH_SHORT).show();
-                            }
-
-                        }
-                        //Toast.makeText(mainActivity, "Added new element. Refresh data.", Toast.LENGTH_SHORT).show();
-
                     }
                 })
                 .setNegativeButton("Cancel",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                Toast.makeText(mainActivity, "Adding cancelled.", Toast.LENGTH_SHORT).show();
-                                dialog.cancel();
                             }
                         });
 
         // create an alert dialog
-        AlertDialog alert = alertDialogBuilder.create();
+        final AlertDialog alert = alertDialogBuilder.create();
         alert.show();
+
+        alert.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                if (checkIfFilled(editTexts)) {
+
+                    //Car car = new Car();
+                    for (int i = 0; i < editTexts.size(); i++) {
+
+                        if(editTexts.get(i).getHint().toString() == fields[i].getName().toString()) {
+                            try{
+
+                                Field field = Car.class.getClass().getDeclaredField(editTexts.get(i).getHint().toString());
+                                //field.set(car,editTexts.get(i).getText());
+
+                            } catch (NoSuchFieldException e){
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                    //car.wypisz();
+                    alert.dismiss();
+                } else {
+                    Toast.makeText(mainActivity, "Fill all fields.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        alert.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Toast.makeText(mainActivity, "Adding cancelled.", Toast.LENGTH_SHORT).show();
+                alert.dismiss();
+            }
+        });
+    }
+
+    public boolean checkIfFilled(ArrayList<EditText>editTexts){
+        for (int i = 0; i < editTexts.size(); i++) {
+            EditText editText = editTexts.get(i);
+            if (editText.getText().toString().length() <= 0) {
+                return false;
+            }
+        }
+        return true;
     }
 
 //    public static void verifyStoragePermissions(Activity activity){
