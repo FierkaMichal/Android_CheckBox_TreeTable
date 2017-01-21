@@ -181,6 +181,17 @@ public class Tree<T> {
         return ifRemove;
     }
 
+    public void swapTreeNode(int ID1, int ID2){
+        TreeNode treeNode1 = find(ID1);
+        TreeNode treeNode2 = find(ID2);
+
+        if(treeNode1 != null && treeNode2 != null){
+            TreeNode parent1 = treeNode1.getParent();
+            treeNode1.setParent(treeNode2.getParent());
+            treeNode2.setParent(parent1);
+        }
+    }
+
     public boolean ifContain(T data){
         if(find(data) != null)
             return true;
@@ -247,6 +258,20 @@ public class Tree<T> {
 
     public TreeNode<T> getRoot(){
         return root;
+    }
+
+    public void changeParent(int idNode, int idNewParent) {
+        TreeNode node= find(idNode);
+        TreeNode parent = find(idNewParent);
+        TreeNode oldParent = node.getParent();
+
+        if(node!=null && parent!=null) {
+            node.setParent(parent);
+            oldParent.removeChild(node);
+
+            parent.addChild(node);
+            node.setTreeLevel(parent.getTreeLevel()+1);
+        }
     }
 
     public boolean isEmpty(){

@@ -2,6 +2,7 @@ package com.example.hubertfabisiak.checkbox_treetable;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,9 +27,14 @@ public class Table {
     ArrayList<TreeNode<Car>> data;
     Tree<Car> tree;
 
+    //
+    boolean relacatingNode;
+    int relocatingId;
+
     public Table(Activity mainActivity, TableLayout tableLayout) {
         this.mainActivity = mainActivity;
         this.tl = tableLayout;
+        relacatingNode=false;
     }
 
     public void init(Tree<Car> tree, ArrayList<TreeNode<Car>> data) {
@@ -48,7 +54,7 @@ public class Table {
                 TableRow.LayoutParams.WRAP_CONTENT));
         tr_heads.add(0, title);
 
-        TristateCheckBox blank = new TristateCheckBox(mainActivity) {
+        final TristateCheckBox blank = new TristateCheckBox(mainActivity){
             @Override
             public void onChangedToChecked() {
 
@@ -161,6 +167,11 @@ public class Table {
                     tv.setLayoutParams(params);
                 }
 
+                //test
+                if(j==1) {
+                    tv.setText(new_head.getId()+"");
+                }
+
                 new_head.addView(tv);
             }
         }
@@ -194,7 +205,16 @@ public class Table {
         while (data.get(i).getTreeNodeId() != v.getId()) {
             i++;
         }
-        data.get(i).onClick();
+
+        if(relacatingNode) {
+            Log.d("qqqqq","ten " + relocatingId);
+            Log.d("qqqqq","z tym " + v.getId()); // dobrze
+            tree.changeParent(relocatingId,v.getId());
+            relacatingNode=false;
+        } else {
+            data.get(i).onClick();
+
+        }
         data = tree.getDataToDisplay();
         createTableTree();
     }
@@ -233,6 +253,10 @@ public class Table {
                         treeNode.setSummaryVisible(!treeNode.getSummaryVisible());
                         data = tree.getDataToDisplay();
                         createTableTree();
+                        break;
+                    case R.id.relocate:
+                        relacatingNode = true;
+                        relocatingId = v.getId();
                         break;
                 }
                 return true;

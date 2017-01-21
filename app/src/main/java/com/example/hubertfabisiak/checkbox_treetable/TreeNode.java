@@ -93,6 +93,9 @@ public class TreeNode<T> {
                 t = nodeToRemove;
             i++;
         }
+        if(t!=null) {
+            children.remove(t);
+        }
     }
 
     public void onClick(){
@@ -285,6 +288,10 @@ public class TreeNode<T> {
 
     public void setParent(TreeNode<T> parent){
         this.parent = parent;
+    }
+
+    public void addChild(TreeNode<T> child) {
+        children.add(child);
     }
 
     public T getData(){
