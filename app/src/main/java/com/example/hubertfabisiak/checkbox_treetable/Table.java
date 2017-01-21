@@ -20,12 +20,12 @@ import java.util.LinkedList;
  * Created by Damian on 15.01.2017.
  */
 
-public class Table {
+public class Table <T> {
 
     Activity mainActivity;
     TableLayout tl;
-    ArrayList<TreeNode<Car>> data;
-    Tree<Car> tree;
+    ArrayList<TreeNode<T>> data;
+    Tree<T> tree;
 
     //
     boolean relacatingNode;
@@ -37,7 +37,7 @@ public class Table {
         relacatingNode=false;
     }
 
-    public void init( Tree<Car> tree,ArrayList<TreeNode<Car>> data) {
+    public void init( Tree<T> tree,ArrayList<TreeNode<T>> data) {
         this.tree = tree;
         this.data = data;
         createTableTree();
@@ -211,6 +211,7 @@ public class Table {
             Log.d("qqqqq","z tym " + v.getId()); // dobrze
             tree.changeParent(relocatingId,v.getId());
             relacatingNode=false;
+            Toast.makeText(mainActivity, "Please select new parent for row " + relocatingId + ".", Toast.LENGTH_SHORT).show();
         } else {
             data.get(i).onClick();
 
@@ -246,7 +247,8 @@ public class Table {
                         Toast.makeText(mainActivity, "You Clicked : " + "Edit", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.remove:
-                        Toast.makeText(mainActivity, "You Clicked : " + "Remove", Toast.LENGTH_SHORT).show();
+                        tree.remove( v.getId()); //pawel popraw
+                        Toast.makeText(mainActivity, "You removed row" + v.getId() + ".", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.summary_visible:
                         TreeNode<?> treeNode = tree.find(v.getId());
@@ -257,6 +259,7 @@ public class Table {
                     case R.id.relocate:
                         relacatingNode = true;
                         relocatingId = v.getId();
+                        Toast.makeText(mainActivity, "Please select new parent for row " + relocatingId + ".", Toast.LENGTH_SHORT).show();
                         break;
                 }
                 return true;
