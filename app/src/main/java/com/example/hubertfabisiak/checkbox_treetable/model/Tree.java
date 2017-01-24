@@ -71,6 +71,17 @@ public class Tree<T> {
         return treeArrayList;
     }
 
+    public boolean addToRoot(T toAddData){
+
+        boolean ifAdd = false;
+        if(ifContain(root)){
+            root.addChildren(toAddData);
+            ifAdd = true;
+        }
+
+        return ifAdd;
+    }
+
     public boolean add(TreeNode<T> parent, T toAddData){
         boolean ifAdd = false;
 
@@ -104,8 +115,9 @@ public class Tree<T> {
             tParent = t.getParent();
             children = t.getChildren();
             tParent.removeChild(t);
-
-            tParent.setChildren(children);
+            if(children!=null) {
+                tParent.addChildren(children);
+            }
             ifRemove = true;
         }
 
@@ -123,7 +135,7 @@ public class Tree<T> {
             children = t.getChildren();
             tParent.removeChild(t);
 
-            tParent.setChildren(children);
+            tParent.addChildren(children);
             ifRemove = true;
         }
 
@@ -140,7 +152,7 @@ public class Tree<T> {
             children = nodeToRemove.getChildren();
             tParent.removeChild(nodeToRemove);
 
-            tParent.setChildren(children);
+            tParent.addChildren(children);
             ifRemove = true;
         }
 

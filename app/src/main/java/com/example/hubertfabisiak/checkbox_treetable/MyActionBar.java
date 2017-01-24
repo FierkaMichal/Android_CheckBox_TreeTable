@@ -309,7 +309,7 @@ public class MyActionBar {
         // create an alert dialog
         final AlertDialog alert = alertDialogBuilder.create();
         alert.show();
-
+        final ArrayList<String> lista = new ArrayList<String>();
         alert.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -320,18 +320,13 @@ public class MyActionBar {
                     //Car car = new Car();
                     for (int i = 0; i < editTexts.size(); i++) {
 
-                        if(editTexts.get(i).getHint().toString() == fields[i].getName().toString()) {
-                            try{
-
-                                Field field = Car.class.getClass().getDeclaredField(editTexts.get(i).getHint().toString());
-                                //field.set(car,editTexts.get(i).getText());
-
-                            } catch (NoSuchFieldException e){
-                                e.printStackTrace();
-                            }
-                        }
+                        lista.add(editTexts.get(i).getText().toString());
+                        //Field field = Car.class.getClass().getDeclaredField(editTexts.get(i).getHint().toString());
+                        //field.set(car,editTexts.get(i).getText());
                     }
+                    Car car = new Car(lista.get(0),lista.get(1),Double.parseDouble(lista.get(2)),Integer.parseInt(lista.get(3)));
                     //car.wypisz();
+                    table.addNewElement(car);
                     alert.dismiss();
                 } else {
                     Toast.makeText(mainActivity, "Fill all fields.", Toast.LENGTH_SHORT).show();

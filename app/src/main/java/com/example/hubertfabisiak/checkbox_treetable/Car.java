@@ -13,11 +13,7 @@ public class Car {
     //@ToDisplay(index = 1)
     private double maxSpeed;
 
-    public Car(){
-
-    }
-
-    public Car(int size, String id, String mark, double maxSpeed) {
+    public Car(String id, String mark, double maxSpeed, int size) {
         super();
         this.size = size;
         this.mark = mark;

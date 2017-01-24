@@ -208,6 +208,10 @@ public class Table <T> {
 
     }
 
+    public void addNewElement(T dataToAdd){
+        tree.addToRoot(dataToAdd);
+    }
+
     private void onClickMethod(View v) {
         int i = 0;
         while (data.get(i).getTreeNodeId() != v.getId()) {
@@ -290,6 +294,7 @@ public class Table <T> {
         alertDialogBuilder.setView(promptView);
 
         Field[] fields = Car.class.getDeclaredFields();
+
 
         EditText edit;
         for (int i = 0; i < fields.length; i++) {

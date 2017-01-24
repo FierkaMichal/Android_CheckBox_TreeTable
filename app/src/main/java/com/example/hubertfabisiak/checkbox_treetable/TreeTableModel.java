@@ -22,15 +22,15 @@ public class TreeTableModel {
     }
 
     public void addData() {
-        Car c3 = new Car(5, "c3","a", 5.1);
-        Car c4 = new Car(3, "c4","Seat", 5.1);
-        Car c1 = new Car(8, "c1","root" ,5.1);
-        Car c2 = new Car(9, "c2","Seat", 5.1);
+        Car c3 = new Car("c3","a", 5.1,5);
+        Car c4 = new Car("c4","Seat", 5.1,3);
+        Car c1 = new Car( "c1","root" ,5.1,8);
+        Car c2 = new Car("c2","Seat", 5.1,9);
 
-        Car c5 = new Car(4, "c5", "test",5.1);
-        Car c6 = new Car(9, "c6","dluuuuuuuuugi", 5.1);
-        Car c7 = new Car(3, "c7","dom_domowo", 5.1);
-        Car c8 = new Car(3, "c8","dom", 5.1);
+        Car c5 = new Car("c5", "test",5.1,4);
+        Car c6 = new Car("c6","dluuuuuuuuugi", 5.1,9);
+        Car c7 = new Car("c7","dom_domowo", 5.1,3);
+        Car c8 = new Car("c8","dom", 5.1,3);
         tree = new Tree<Car>(c1);
 
         tree.add(tree.getRoot(), c3);

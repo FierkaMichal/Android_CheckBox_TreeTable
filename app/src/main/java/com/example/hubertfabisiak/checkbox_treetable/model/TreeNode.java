@@ -96,6 +96,12 @@ public class TreeNode<T> extends Observable implements OnChangeListener {
             children.add(t);
     }
 
+    public void addChildren(ArrayList<TreeNode<T>> children){
+        for(TreeNode<T> t: children)
+            t.parent = this;
+        this.children.addAll(children);
+    }
+
     public void setChildren(ArrayList<TreeNode<T>> children){
         for(TreeNode<T> t: children)
             t.parent = this;
